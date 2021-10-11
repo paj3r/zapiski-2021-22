@@ -71,3 +71,47 @@ Funkcije nimajo zank, ampak se namesto njih uporablja rekurzija
 ​	fun sestejAB (a:int, b:int) = 
 ​		if a=b then a else sestejAB(a, b-1) + b
 
+## Predavanje 2
+
+#### Podrobno o funkcijah
+
+Funkcije se obravnavalo kot vrednosti, ki se evalvirajo kasneje.
+Znak \* ne pomeni množenja (men se zdi da kartezični produkt).
+Funkcije lahko kličejo samo funkkcije, ki so že definirane v kontekstu (definirane prej od same sebe).
+Oznake tipov pogosto izpustimo, da jih SML sklepa sam.
+
+#### Terke
+
+Podatkovni tip **nespremenljive** dolžine, sestavljen iz komponent **različnih** podatkovnih tipov.
+**Zapis terke** :  (e1, e2, ..., en), če je pod. tip e1:t1, ..., en:tn, je terka tipa t1 \* t2 \* ... \* tn
+**dostop do elementov** terke e : \#n e   , kjer je n številka zaporedne komponente, e pa izraz-terka...
+
+#### Seznam
+
+Podatkovni tip **spremenljive** dolžine, sestavljen iz komponent **enakih** podatkovnih tipov.
+**Zapis seznama s komponentami** : [v1, v2, ..., vn], vsi elementi tipa t1
+**Zapis seznama s sintakso** glava::rep (v0 :: [v1, v2, ..., vn] == [v0, v1, v2, ..., vn]), **glava** je *element* **rep** je *seznam*.
+null e -> vrn true, če je seznam prazen
+hd e -> vrne prvi element seznama
+tl e -> vrne rep seznama (brez prvega elementa)
+:: - cons operator (concatination)
+
+#### Lokalno okolje
+
+funkcije uporabljajo globalno statično/dinamično okolje -> portebujemo konstrukt za izvedbo **lokalnih vezav** v funkciji: 
+  - lepše programiranje
+  - potrebne so samo lokalno
+  - zaščita pred sprembami izven lokalnega okolja
+  - v določenih primerih: punjo za performanse (sledi, ...)
+
+**Izraz "let"**
+
+		- je samo izraz torej je lahko vsebina funkcije
+  - **sintaksa** : let d1 d2 ... dn in e end
+  - **preverjanje tipov**: preveri tip vezav d1, d2, ..., dn in telesa e v zunanjem statičnem okolju. Tip celega izraza let je tipa e
+  - **evalvacija** : evalviraj zaporedoma vse vezave in telo e v zunanjeem okolju. Rezultat izraza let je evalvacija e.
+
+Uporablja se za definiranje lokalnih spremenljivk v funkciji.
+Uvedemo pojem dosega spremenljivke (angl. scope).
+V lokalnem okolju imamo lahku tudi vezave lokalnih funkcij.
+
