@@ -9,6 +9,7 @@ public class SoundGeneratorB {
 	// Graph components.
 	private Synthesizer synth;
 	private LineOut lineOut;
+	private Add adder;
 
 	public static void main(String args[]) {
 		new SoundGeneratorB().start();
@@ -59,17 +60,17 @@ public class SoundGeneratorB {
 		SineOscillator syn2 = new SineOscillator();
 		synth.add(syn2);
 
-		syn1.output.connect(0, lineOut.input, 0);
-		syn1.output.connect(0, lineOut.input, 1);
-
 		syn1.frequency.set(frequency1);
 		syn1.amplitude.set(amplitude1);
 
-		syn2.output.connect(0, lineOut.input, 0);
-		syn2.output.connect(0, lineOut.input, 1);
-
 		syn2.frequency.set(frequency2);
 		syn2.amplitude.set(amplitude2);
+
+		synth.add(adder = new Add());
+		syn1.output.connect(adder.inputB);
+		adder.inputA.connect(syn2.output);
+		adder.output.connect(0, lineOut.input, 0);
+		adder.output.connect(0, lineOut.input, 1);
 
 		lineOut.start();									// Start the data flow in graph.
 
@@ -83,6 +84,7 @@ public class SoundGeneratorB {
 		synth.stop();	 									// Turn off JSyn engine
 
 		 */
+		//POGLEDAT KAJ JE PASSTHROUGH
 		int seconds = 4;															// Duration of our signal.
 		int frequency = 339;
 		int amplitude = 115;
