@@ -6,8 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="02SoundGeneration" />
         <module name="RZP" />
+        <module name="02SoundGeneration" />
       </profile>
     </annotationProcessing>
   </component>

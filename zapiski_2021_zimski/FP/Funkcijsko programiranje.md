@@ -147,8 +147,8 @@ To je kot da delamo temp spremenljivke v Javi, tukaj se imenuje lokalno okolje.
 Vprašanje je kaj vrniti kot najmaanjši element praznega seznama, zaporedno mesto elementa, ki ga ni.
 Rešitev v SML: opcija, vezana na podatkovni tip: 
 
-	- SOME \<rezultat\>, če rezultat obstaja (SOME e, e tipa t -> tip t option)
-	- NONE, če rezultat ni veljaven (tip 'a option)
+- SOME \<rezultat\>, če rezultat obstaja (SOME e, e tipa t -> tip t option)
+- NONE, če rezultat ni veljaven (tip 'a option)
 
 ```ocaml
 	fun najvecji_el (sez: int list) =
@@ -256,3 +256,85 @@ case se uporablja za "pattern matching". datatype lahko definiramo tudi rekurziv
 
 Opcija in seznam sta običajna polimorfna datatypa.
 exception SeznamJePrazen - exception vezava, prožimo z raise SeznamJePrazen
+
+## Predavanje 4
+
+#### Izjeme
+
+```ocaml
+exception DeljenjeZNic
+
+fun deli1 (a1, a2) =
+	if a2 = 0
+	then raise DeljenjeZNic
+	else a1 div a2
+	
+fun tabeliraj1 zacetna =
+	deli1(zacetna, zacetna-5)::tabeliraj1(zacetna-1)
+	handle DeljenjeZNic => [999]
+```
+
+Izjeme imajo podatkovni tip *exn*. 
+
+```ocaml
+exception MatematicnaTezava of int*string
+
+fun deli3 (a1, a2) =
+	if a2 = 0
+	then raise MatematicnaTezava(a1, "deljenje z 0")
+	else a1 div a2
+	
+fun tabeliraj3 zacetna =
+	Int.toString(deli3(zacetna, zacetna-5)) ^ " " ^ tabeliraj1(zacetna-1)
+	handle MatematicnaTezava(a1, a2) = > a2 ^ " stevila " ^ Int.toString(a1)
+```
+
+#### Repna rekurzija
+
+Je bolj učunkovita od drugih oblik rekurzije. Pri vsakm klicu funkcije se funkcijski okvir s kontekstor potisne na sklad; ko se funkcija zaključi se kontekst odstrani s sklada. Pri repni rekurziji se okvir samo zamenja z novim, ker kličoča funkcija konteksta ne potrebuje več.
+
+Primer navadne:
+
+```ocaml
+fun potenca (x,y) = if y=0 then 1 else x * potenca(x,y-1)
+```
+
+Primer repne:
+
+```ocaml
+fun potenca_repna (x,y) =
+	let
+		fun pomozna (x,y,acc) =  (*akumulator acc*)
+			if y=0
+			then acc
+			else pomozna(x, y-1, acc*x)
+		in
+			pomozna(x,y,1)
+		end
+```
+
+Rekurzivna implementacija z lokalno pomožno funkcijo, ki sprejema en dodatni argument, ki mu rečemo **akumulator**, v katerega se shranjuje vrednost.
+
+Repna rekurzija:
+ - po izvedbi rekurzivnega klica v repu rekurzije, ni potrebno izvesti ve nobenih dodatnih operacij
+ - rep funkcije definiramo rekurzivno:
+    - v izrazu fun f p = e je telo e v repu
+    - v izrazu
+
+```ocaml
+fun obrni sez = 
+	case sez of 
+		[] => []
+	|	g::r => (obrni r) @ [g]
+	
+fun obrni_repno sez =
+	let 
+		fun pomozna (sez,acc) =
+			case sez of
+				[] => acc
+			|	g::r => pomozna(r, gacc)
+	in 
+		pomozna(sez, [])
+	end
+```
+
