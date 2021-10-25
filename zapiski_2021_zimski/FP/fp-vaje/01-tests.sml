@@ -59,7 +59,6 @@ val testLen4  = len([1, 2, 4, 5, 6, 7]) = 6;
 val testLen5 = len([1, 2, 4, 5, 6, 7, 5, 4, 6, 7]) = 10;
 val testLen6 = len([1]) = 1;
 
-(*
 val _: (int list * int * int) -> int list = insert;
 val testInsert1 = insert ([], 0, 5) = [5];
 val testInsert2 = insert ([1, 2], 0, 5) = [5, 1, 2];
@@ -67,7 +66,7 @@ val testInsert3 = insert ([1, 2], 1, 5) = [1, 5, 2];
 val testInsert4 = insert ([1, 2, 3], 1, 5) = [1, 5, 2, 3];
 val testInsert5 = insert([1, 2, 4, 5, 6, 7], 3, 99) = [1, 2, 4, 99, 5, 6, 7];
 val testInsert6 = insert([1, 2, 4, 5, 6, 7, 5, 4, 6, 7, 456], 5, 99) = [1, 2, 4, 5, 6, 99, 7, 5, 4, 6, 7, 456];
-val testInsert7 = insert([1], 1, 2) = [1, 2];*)
+val testInsert7 = insert([1], 1, 2) = [1, 2];
 
 val _: int list -> int option = last;
 val testLast1 = last([1, 2, 4, 5, 6, 7]) = SOME (7);
@@ -82,7 +81,7 @@ val testNth3 = nth([1], 0) = SOME 1;
 val testNth4 = nth([1], 1) = NONE;
 val testNth5 = nth([1, 2], 2) = NONE;
 
-val _ : int list*int -> int list = delete;
+val _ : (int list * int) -> int list = delete;
 val testDelete1 = delete ([], 0) = [];
 val testDelete2 = delete ([1, 2], 0) = [1,2];
 val testDelete3 = delete ([1, 2], 1) = [2];

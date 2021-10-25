@@ -52,17 +52,61 @@ fun len(sez) =
         pomozna(sez,0)
     end
 
-fun last(sez) =
+fun last(sez) : int option =
     if null sez
     then NONE
     else if null(tl sez)
         then SOME(hd sez)
         else last (tl sez)
 
-fun nth(sez:int list, ix:int) =
-    if (null sez) andalso (ix /= 0)
+fun nth(sez:int list, ix:int): int option =
+    if ix >= len(sez)
     then NONE
-    else 
-        if ix=0
-        then SOME(hd sez)
-        else nth((tl sez), (ix-1))
+    else
+        if (null sez) andalso (ix <> 0)
+        then NONE
+        else 
+            if ix=0
+            then SOME(hd sez)
+            else nth((tl sez), (ix-1))
+
+fun insert (sez:int list, loc:int, el:int):int list = 
+    let 
+        fun pomozna(sez, loc, el, compl) =
+            if loc=0
+            then pomozna(sez, (loc-1), el, el::compl)
+            else 
+                case sez of
+                [] => obrni compl
+            |   g::r => pomozna(r, (loc-1), el, g::compl)
+    in  
+        pomozna(sez, loc, el, [])
+    end
+
+fun delete (sez:int list, el:int):int list = 
+    let
+        fun pomozna(sez, el, acc) =
+            case sez of
+                [] => obrni acc
+            |   g::r => if g = el
+                        then pomozna(r, el, acc)
+                        else pomozna(r, el, g::acc)
+    in
+        pomozna(sez, el,[])
+    end
+
+fun append (sez:int list, el:int):int list =
+    insert(sez, len(sez), el)
+
+fun reverse(sez:int list):int list =
+    obrni(sez)
+
+fun palindrome(sez:int list):bool =
+    case sez of
+        [] => true
+    |   g::r => if null r
+                then true
+                else 
+                    if g = (valOf(last r))
+                    then palindrome(delete(r, (len(r)-1)))
+                    else false
