@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="466ed9fa-5150-4426-af92-9fb0c9d78836" name="Default Changelist" comment="" />
+    <list default="true" id="87771d21-d7c1-4ca2-ac88-6ecbad1883d3" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -11,10 +11,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
   </component>
-  <component name="ProjectId" id="1zr7GY7Sljh36ONiHTxewIlJbxc" />
+  <component name="ProjectId" id="202tJdsxU8KH9boCwdTcd608BEl" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../dn2/RZP" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../KČR/SwingSet2" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -28,23 +32,11 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.GeneralClickFilter">
-    <configuration name="GeneralClickFilter" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="cbsp.GeneralClickFilter" />
-      <module name="03ClickFilter" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="cbsp.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SimpleClickFilter" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="cbsp.SimpleClickFilter" />
-      <module name="03ClickFilter" />
+  <component name="RunManager">
+    <configuration name="GenerateParameters" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="MAIN_CLASS_NAME" value="cbsp.GenerateParameters" />
+      <module name="04FiltersInFrequencyDomain" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="cbsp.*" />
@@ -57,8 +49,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.GeneralClickFilter" />
-        <item itemvalue="Application.SimpleClickFilter" />
+        <item itemvalue="Application.GenerateParameters" />
       </list>
     </recent_temporary>
   </component>
@@ -67,11 +58,11 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="466ed9fa-5150-4426-af92-9fb0c9d78836" name="Default Changelist" comment="" />
-      <created>1634894257530</created>
+      <changelist id="87771d21-d7c1-4ca2-ac88-6ecbad1883d3" name="Default Changelist" comment="" />
+      <created>1635254439516</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1634894257530</updated>
+      <updated>1635254439516</updated>
     </task>
     <servers />
   </component>

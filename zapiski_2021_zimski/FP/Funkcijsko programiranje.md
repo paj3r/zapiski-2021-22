@@ -338,3 +338,225 @@ fun obrni_repno sez =
 	end
 ```
 
+## Predavanje 5
+
+#### Funkcije višjega reda
+
+```ocaml
+fun operacija1 x = x*x*x
+fun operacija2 x = x+1
+fun operacija3 x = ~x
+
+val zbirka_operacij = (operacija1, "lala", operacija3, 144)
+
+fun izvedi1 podatek =
+	(#1 zbirka_operacij) ((#3 zbirka_operacij) podatek)
+	
+fun izvedi2 (pod, funkcija) =
+	funkcija (pod+100)
+```
+
+Tudi funkcije so **objekti**. Koristno za ločeno pogramiranje pogostih operacij ki jih uporabimo kot zunanjo funkcijo. Funkcijam, ki sprejemajo funkcije ali vračajo funkcije, pravimo **Funkcije višjega reda**. Funkcije imajo **funkcijsko ovojnico** - struktura, v kateri hraijo kontekst, v katerem so bile definirane.
+
+#### Funkcije kot argumenti funkcij
+
+Funkcije so lahko argumenti drugih funkcije -> bolj splošna programska koda. Funkcije višjega reda so lahko polimorfne.
+
+```ocaml
+fun zmnozi_nkrat (x,n) =
+	if n=0
+	then x
+	else x * zmnozi_nkrat (x, n-1)
+	
+fun sestej_nkrat (x,n) =
+	if n=0
+	then x
+	else x + sestej_nkrat (x, n-1)
+	
+fun rep_nti (sez, n) = 
+	if n=0
+	then sez
+	else tl (rep_nti(sez, n-1))
+	
+(*refaktorizacija programske kode - posploševaje v funkcijo višjega reda*)
+
+fun nkrat (f, x, n) =
+	if n=0
+	then x
+	else f (x,  nkrat (f, x, n-1))
+
+fun pomnozi (x,y) = x*y
+fun sestej (x,y) = x+y
+fun rep (x,y) = tl y
+
+fun zmnozi_nkrat_kratka (x,n) =
+	nkrat(pomnozi, x, n)
+	
+fun sestej_nkrat_kratka (x,n) =
+	nkrat(sestej, x, n)
+
+fun rep_nti_kratka (sez, n) =
+	nkrat(rep, sez, n)
+```
+
+```ocaml
+fun odloci x =
+	if x>10
+	then (let fun prva x = 2*x in prva end)
+	else (let fun druga x = x div 2 in druga end)
+	
+(*
+	val odloci = fn : int -> int -> int
+	val odloci = fn : int -> (int -> int) 
+*)
+
+(*alternativa*)
+fun zmnozi_nkrat_kratka (x,n) =
+	nkrat(let fun pomnozi(x,y) = x*y in pomnozi end, x, n)
+```
+
+
+
+#### Anonimne funkcije
+
+Deklaracija: fn (x,y) => x+y+1
+
+```ocaml
+fun sestej_nkrat_kratka (x,n) =
+	nkrat(op +, x, n)
+
+fun rep_nti_kratka (sez, n) =
+	nkrat(fn (x,y) => tl y, sez, n)
+```
+
+ Namesto ločenih deklaracij funkcij (fun), lahko funkcije deklariramo na mestu, kjer jih potrebujemo (brez imenovanja - anonimno).
+
+```ocaml
+fun prstej sez = 
+	case sez of
+	[] => 0
+|	glava::rep => 1 + prestej rep
+
+fun sestej_sez sez
+	case sez of
+	[] => 0
+|	glava::rep => glava + sestej_sez rep
+
+(*posplošimo*)
+fun predelaj_seznam (f,sez) =
+	case sez of
+	[] => 0
+|	glava::rep => (f sez) + predelaj_seznam (f,rep)
+
+fun prestej_super sez  = predelaj_seznam(fn _ => 1, sez)
+fun sestej_seznam_super sez = predelaj_seznam((*op*)hd, sez)
+```
+
+#### Funkcija Map
+
+Preslika seznam v drugi enak seznam, tako, da na vsakem elementu uporabi preslikavo f.
+
+```ocaml
+fun map (f, sez) =
+	case sez of
+	[] => []
+|	glava::rep => (f glava)::map(f, rep)
+(*podatkovni tip funkcije map *)
+val map = fn : (a' -> b') * a' list -> b' list
+```
+
+#### Funkcija Filter
+
+Preslika seznam v drugi seznam tako, da v novem seznamu ohrani samo tiste elemente, katere je predikat (funkcija, ki vrača bool) resničen.
+
+```ocaml
+fun filter (f, sez) =
+	case sez of
+	[] => []
+|	glava::rep => 
+		if (f glava)
+		then glava::filter(f,rep)
+		else filter(f,rep)
+(*podatkovni tip funkcije filter *)
+val map = fn : (a' -> bool) * a' list -> a' list
+```
+
+#### Funkcija Fold
+
+Znana tudi pod imenom reduce. Združi elemente seznama v končni rezultat. Na elementih iizvede funkcijo f, ki upošteva trenutni rezultat in vrednost naslednjega elementa
+
+```ocaml
+fun fold (f, acc, sez) =
+	case sez of
+	[] => acc
+|	glava::rep => fold(f, f(glava, acc), rep)
+
+fold(fn(el,a)=> el+a, 0, [1,5,32,4,3,4])(*seštej seznam*)
+fold(fn(el,a)=> el*a, 1, [1,5,32,4,3,4])(*zmnoži seznam*)
+fold(fn(el,a)=> if el mod 2=0 then a+1 else a, 1, [1,5,32,4,3,4])(*sodi elementi*)
+fold(fn(el,_)=> el) (*zadnji element*)
+```
+
+#### Doseg vrednosti
+
+Funkcije kot prvo-razredni objekti so zmogljivo orodje. Definirati moramo semantiko pri določanju vrednosti smrepenljivk v funkciji. Imamo dve možnosti:
+
+```ocaml
+(*DINAMIČNI DOSEG, uporablja vrednosti v okolju, kjer jo kličemo*)
+val a = 1
+fun f1 x = x+a
+val rez1 = f1 3
+val a = 5
+val rez2 = f1 3
+(*rez1 = 4, rez2 = 8*)
+
+(*LEKSIKALNI DOSEG, uporablja vrednosti v okolju, kjer so definirane*)
+val a = 1
+fun f1 x = x+a
+val rez1 = f1 3
+val a = 5
+val rez2 = f1 3
+(*rez1 = 4, rez2 = 4*)
+```
+
+#### Funkcijska ovojnica
+
+Pri deklaraciji funkcije torje ni dovolj, da shranimo le programsko kodo funkcije, temveč je potrebno shraniti tudi trenutno okolje. **Funkcijska ovojnica** = koda funkcije + trenutno okolje.
+Klic funkcije = evalvacija kode f v okolju env, ki sta del funkcijske ovojnice (f, env)
+
+#### Leksikalni doseg
+
+funkcija uporablja vrednosti spremenljivk v okolju, kjer je definirana.
+V zgodovini sta bili obe možnosti, danes prevladuje leksikalni doseg, kjer je bolj zmogljiv.
+**Prednosti** leksikalnega dosega:
+
+ - Imena spremenljivk v funkciji so neodvisna od imen zunanjih spremenljivk
+ - Funkcija je neodvisna od imen uporabljenih spremenljivk
+ - Tip funkcije lahko določimo ob njeni deklaraciji
+ - Ovojnica shrani podatke, ki jih potrebuje za kasnejšo izvedbo
+
+#### Currying
+
+Ime meode, naziv dbila po matematiku Haskell Curryju. Funkcije sprejemajo natanko en argument - če želimo podati več vrednosti v argumentu, smo jih običajno zapisali v terko.
+
+```ocaml
+fun vmejah_terka (min, max, sez) = 
+	filter(fn x => x>min andalso x<max, sez)
+(*tipa:*)
+fn: int * int * int list -> int list
+	
+fun vmejah_curry min =
+	fn max =>
+		fn sez =>
+			filter(fn x => x>min andalso x<max, sez)
+(*tipa:*)
+fn: int -> int -> int list -> int list
+
+(*Lepše*)
+fun vmejah_terka min max sez = 
+	filter(fn x => x>min andalso x<max, sez)
+	
+(*Delna aplikacija*)
+val od5do10 = vmejah_curry 5 10 (*zdej je od5do10 funkcija k vrača el. med 5 in 10*)
+```
+

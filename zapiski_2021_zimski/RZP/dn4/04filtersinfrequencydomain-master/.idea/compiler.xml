@@ -6,9 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="02SoundGeneration" />
-        <module name="RZP" />
+        <module name="04FiltersInFrequencyDomain" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="9">
+      <module name="04FiltersInFrequencyDomain" target="9" />
+    </bytecodeTargetLevel>
   </component>
 </project>
