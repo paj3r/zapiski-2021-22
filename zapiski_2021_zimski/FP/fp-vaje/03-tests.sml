@@ -1,0 +1,131 @@
+val all_tests : bool list ref = ref [];
+
+val _ = print "---------- zip ----------\n";
+val _ : 'a list * 'b list -> ('a * 'b) list = zip;
+val test1 = zip ([1, 2, 3], ["a", "b", "c", "d"]) = [(1, "a"), (2, "b"), (3, "c")];
+val test2 = zip ([], [1,2,3]) = [];
+val test3 = zip ([1], [1,2]) = [(1,1)];
+val _ = (all_tests := !all_tests @ [test1, test2, test3]);
+
+val _ = print "---------- unzip ----------\n";
+val _ : ('a * 'b) list -> 'a list * 'b list = unzip;
+val test1 = unzip [(1, "a"), (2, "b"), (3, "c")] = ([1, 2, 3], ["a", "b", "c"]);
+val test2 = unzip ([]) = ([], []);
+val _ = (all_tests := !all_tests @ [test1, test2]);
+
+val _ = print "---------- subtract ----------\n";
+val _ : natural * natural -> natural = subtract;
+val one = One;
+val two = Succ One;
+val three = Succ two;
+val four = Succ three;
+val test1 = subtract (four, three) = one;
+val test2 = subtract (four, one) = three;
+val test3 = subtract (three, one) = two;
+val test4 = (subtract (three, four) handle NotNaturalNumber => One) = One;
+val _ = (all_tests := !all_tests @ [test1, test2, test3, test4]);
+
+val _ = print "---------- any ----------\n";
+val _ : ('a -> bool) * 'a list -> bool = any;
+val test1 = any (fn (a,b) => a>b, [(1,2), (2,2), (3,2)]) = true;
+val test2 = any (fn (a,b) => a>b, [(1,2), (2,2), (3,3)]) = false;
+val test3 = any (fn (a,b) => a>b, [(1,2)]) = false;
+val _ = (all_tests := !all_tests @ [test1, test2, test3]);
+
+val _ = print "---------- map ----------\n";
+val _ : ('a -> 'b) * 'a list -> 'b list = map;
+val test1 = map (fn a => a+1, [1,2,3]) = [2,3,4];
+val test2 = map (fn a => a+1, []) = [];
+val _ = (all_tests := !all_tests @ [test1, test2]);
+
+val _ = print "---------- filter ----------\n";
+val _ : ('a -> bool) * 'a list -> 'a list = filter;
+val test1 = filter (fn a => a>5, [1,2,3]) = [];
+val test2 = filter (fn a => a>5, [1,2,3,4,5,6,7]) = [6,7];
+val _ = (all_tests := !all_tests @ [test1, test2]);
+
+val _ = print "---------- fold ----------\n";
+val _ : ('a * 'b -> 'a) * 'a * 'b list -> 'a = fold;
+fun f (a, b) = a+b;
+val test1 = fold (f, 0, [1,1,1]) = 3;
+val test2 = fold (f, 0, [1,0,0]) = 1;
+val test3 = fold (f, 0, [0,0,0]) = 0;
+val test4 = fold (f, 1, [0,0,0]) = 1;
+val test5 = fold (f, 1, [1,0,0]) = 2;
+val _ = (all_tests := !all_tests @ [test1, test2, test3, test4, test5]);
+
+val _ = print "---------- rotate ----------\n";
+val _ : 'a bstree * direction -> 'a bstree = rotate;
+val treeA = br (lf, 1, lf);
+val treeGama = lf;
+val treeB = br (treeA, 3, lf);
+val tmp = br (lf, 3, lf);
+val rotatedB = br (lf, 1, tmp);
+val test1 = rotate (treeB, R) = rotatedB;
+val test2 = rotate (rotatedB, L) = treeB;
+val _ = (all_tests := !all_tests @ [test1, test2]);
+
+val _ = print "---------- height ----------\n";
+val treeA = br (lf, 1, lf);
+val treeGama = lf;
+val treeB = br (treeA, 3, lf);
+val tmp = br (lf, 3, lf);
+val rotatedB = br (lf, 1, tmp);
+val test1 = height (treeA) = 2;
+val test2 = height (lf) = 1;
+val test3 = height (treeB) = 3;
+val _ = (all_tests := !all_tests @ [test1, test2, test3]);
+
+val _ = print "---------- balance ----------\n";
+val treeA = br (lf, 1, lf);
+val treeGama = lf;
+val treeB = br (treeA, 3, lf);
+val tmp = br (lf, 3, lf);
+val rotatedB = br (lf, 1, tmp);
+val test1 = balance treeB = ~1;
+val test2 = balance rotatedB = 1;
+val test3 = balance treeA = 0;
+val t1 = br (lf, "t1", lf);
+val t2 = br (lf, "t2", lf);
+val t3 = br (lf, "t3", lf);
+val t4 = br (lf, "t4", lf);
+val x = br (t3, "x", t4);
+val y = br (t2, "y", x);
+val z = br (t1, "z", y);
+val test4 = balance z = 2;
+val _ = (all_tests := !all_tests @ [test1, test2, test3, test4]);
+
+val _ = print "---------- rebalance ----------\n";
+val _ : 'a bstree -> 'a bstree = rebalance;
+val t1 = lf;
+val t2 = lf;
+val t3 = lf;
+val t4 = lf;
+val x = br (t3, "x", t4);
+val y = br (t2, "y", x);
+val z = br (t1, "z", y);
+val rebalancedZ = br (br (t1, "z", t2), "y", br (t3, "x", t4));
+val test1 = rebalance z = rebalancedZ;
+val x1 = br (t2, "x", t3);
+val y1 = br (x1, "y", t4);
+val z1 = br (t1, "z", y1);
+val rebalancedZ1 = br (br (t1, "z", t2), "x", br (t3, "y", t4));
+val test2 = rebalance z1 = rebalancedZ1;
+val x2 = br (t4, "x", t3);
+val y2 = br (x2, "y", t2);
+val z2 = br (y2, "z", t1);
+val rebalancedZ2 = br (x, "y", br (t2, "z", t1));
+val test3 = rebalance z2 = rebalancedZ2;
+val x3 = br (t3, "x", t2);
+val y3 = br (t4, "y", x3);
+val z3 = br (y3, "z", t1);
+val rebalancedZ3 = br (br (t4, "y", t3), "x", br (t2, "z", t1))
+val test4 = rebalance z3 = rebalancedZ3;
+val _ = (all_tests := !all_tests @ [test1, test2, test3, test4]);
+
+val _ = print "---------- avl ----------\n";
+val _ : ('a * 'a -> order) * 'a bstree * 'a -> 'a bstree = avl;
+
+(* aggregation of all results*)
+val nr_passes_tests = foldl (fn (true, acc) => acc + 1 | (false, acc) => acc) 0 (!all_tests);
+val nr_all_tests = length (!all_tests);
