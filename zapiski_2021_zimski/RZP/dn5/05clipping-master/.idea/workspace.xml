@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="466ed9fa-5150-4426-af92-9fb0c9d78836" name="Default Changelist" comment="" />
+    <list default="true" id="aa103374-ba86-4c6c-9e39-a29d2aed1b4f" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -11,10 +11,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
   </component>
-  <component name="ProjectId" id="1zr7GY7Sljh36ONiHTxewIlJbxc" />
+  <component name="ProjectId" id="20MmNcuquHIASLRKdiOA9wCbyYw" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../dn5/05clipping-master" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -28,23 +28,10 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.GeneralClickFilter">
-    <configuration name="GeneralClickFilter" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="cbsp.GeneralClickFilter" />
-      <module name="03ClickFilter" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="cbsp.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SimpleClickFilter" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="cbsp.SimpleClickFilter" />
-      <module name="03ClickFilter" />
+  <component name="RunManager">
+    <configuration name="SimpleDistortor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cbsp.SimpleDistortor" />
+      <module name="05Clipping" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="cbsp.*" />
@@ -57,8 +44,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.GeneralClickFilter" />
-        <item itemvalue="Application.SimpleClickFilter" />
+        <item itemvalue="Application.SimpleDistortor" />
       </list>
     </recent_temporary>
   </component>
@@ -67,11 +53,11 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="466ed9fa-5150-4426-af92-9fb0c9d78836" name="Default Changelist" comment="" />
-      <created>1634894257530</created>
+      <changelist id="aa103374-ba86-4c6c-9e39-a29d2aed1b4f" name="Default Changelist" comment="" />
+      <created>1635862791166</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1634894257530</updated>
+      <updated>1635862791166</updated>
     </task>
     <servers />
   </component>
@@ -80,9 +66,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
