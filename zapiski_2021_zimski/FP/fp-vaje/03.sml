@@ -14,20 +14,16 @@ fun zip(a, b)=
         pomozna(a,b,[])
     end
 
-fun unzip(l:('a * 'b) list)=
-    if null l
+fun unzip(lis:('a * 'b) list)=
+    if null lis
     then ([],[])
     else
-        let
-            val ta = #1 (hd l)
-            val tb = #2 (hd l)
-            val tal = (tl l)
-            fun pomozna(l, acc, bcc)=
-                if null l
-                then (acc, bcc)
-                else pomozna(tal, acc@[ta], bcc@[tb])
+        let fun pomozna(lis, acc, bcc)=
+                case lis of
+                    [] => (acc, bcc)
+                |   (a,b)::tl => pomozna(tl, acc@[a], bcc@[b])
         in
-            pomozna(l, [], [])
+            pomozna(lis, [], [])
         end
 
 fun subtract(a, b):natural=
@@ -39,3 +35,62 @@ fun subtract(a, b):natural=
     |   Succ n => (case a of
                     One => raise NotNaturalNumber
                 |   Succ m => subtract(m,n))
+
+fun any(f, s)=
+    case s of
+        []=>false
+    |   h::t=>
+            if (f h)=true
+            then true
+            else any(f,t)
+
+fun map(f, s)=
+    let
+        fun pomozna(f,s,acc)=
+            case s of
+                [] => acc
+            |   h::t => pomozna(f,t,acc@[f h])
+    in
+        pomozna(f,s,[])
+    end
+
+fun filter(f, s)=
+    let
+        fun pomozna(f,s,acc)=
+            case s of
+                [] => acc
+            |   h::t => if f h then pomozna(f,t,acc@[h]) else pomozna(f,t,acc)
+    in
+        pomozna(f,s,[])
+    end
+
+fun fold(f, z, s)=
+    case s of
+        h::t => if null t then f (z,h) else f (fold(f,z,t),h)
+    |   _=>z
+
+fun rotate(drevo, smer:direction)=
+    if smer=L
+    then
+        case drevo of
+            br(a,p,q)=>(case q of
+                            br(b,n,c) => 
+                                (let 
+                                    val ttree = br(a,p,b)
+                                in 
+                                    br(ttree,n,c)
+                                end)
+                        |   _=>drevo
+                        )
+        |   lf=>drevo
+    else
+        case drevo of
+            br(p,q,c)=>(case p of
+                            br(a, n, b) => br(a, n, br(b,q,c))
+                        |   _=>drevo
+                        )
+        |   lf=>drevo
+
+fun rebalance(drevo) = drevo
+
+fun avl (c, drevo, e)=drevo

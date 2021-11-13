@@ -65,36 +65,6 @@ val test1 = rotate (treeB, R) = rotatedB;
 val test2 = rotate (rotatedB, L) = treeB;
 val _ = (all_tests := !all_tests @ [test1, test2]);
 
-val _ = print "---------- height ----------\n";
-val treeA = br (lf, 1, lf);
-val treeGama = lf;
-val treeB = br (treeA, 3, lf);
-val tmp = br (lf, 3, lf);
-val rotatedB = br (lf, 1, tmp);
-val test1 = height (treeA) = 2;
-val test2 = height (lf) = 1;
-val test3 = height (treeB) = 3;
-val _ = (all_tests := !all_tests @ [test1, test2, test3]);
-
-val _ = print "---------- balance ----------\n";
-val treeA = br (lf, 1, lf);
-val treeGama = lf;
-val treeB = br (treeA, 3, lf);
-val tmp = br (lf, 3, lf);
-val rotatedB = br (lf, 1, tmp);
-val test1 = balance treeB = ~1;
-val test2 = balance rotatedB = 1;
-val test3 = balance treeA = 0;
-val t1 = br (lf, "t1", lf);
-val t2 = br (lf, "t2", lf);
-val t3 = br (lf, "t3", lf);
-val t4 = br (lf, "t4", lf);
-val x = br (t3, "x", t4);
-val y = br (t2, "y", x);
-val z = br (t1, "z", y);
-val test4 = balance z = 2;
-val _ = (all_tests := !all_tests @ [test1, test2, test3, test4]);
-
 val _ = print "---------- rebalance ----------\n";
 val _ : 'a bstree -> 'a bstree = rebalance;
 val t1 = lf;
