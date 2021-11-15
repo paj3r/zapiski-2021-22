@@ -560,3 +560,38 @@ fun vmejah_terka min max sez =
 val od5do10 = vmejah_curry 5 10 (*zdej je od5do10 funkcija k vrača el. med 5 in 10*)
 ```
 
+## Predavanje 6
+
+#### Delna aplikacija funkcij
+
+Ko uporabljamo currying pri klicu funkcije podamo manj argumentov kot jih funkcija ima.
+Rezultat je delna aplikacija oz. funkcija, ki "čaka" na argumente.
+
+#### Mutacija
+
+Spreminjanje vrednosti seznama naknadno npr najprej s1, nato kličemo s1 v rez, rez se spremeni. Sml tega ne dela, čeprav uporablja reference.
+SML lahko uporablja mutacijo.
+
+```ocaml
+ref e (*izdelava spremenljivke*)
+el := e2 (*sprememba vsebine*)
+!e (*vrne vrednost*)
+```
+
+Mutacije ne uporabljamo, razen če ni nujno potrebno: povzročajo stranske učinke in težave pri določanju podatkovnih tipov.
+
+#### Določanje podatkovnih tipov
+
+Cilj: vsaki deklaraciji (zaporedoma) določiti tip, ki bo skladen s tpi preostalih deklaracij.
+Tipizacija glede na statičnost:
+
+	- **Statično tipizirani jeziki** (ML, Java, C++, C#): preverjajo pravilnost podatkovnih tipovin opozorijo na napake v programu pred izvedbo
+	- **Dinamično tipizirani jeziki** (Racket, Python, JS, Ruby): Izvajajo manj (ali nič) preverb pravilnosti podatkovnih tipov, večino preverjanj se izvede pri izvajanju
+
+Tipizacja glede na implicitnost:
+
+ - **Implicitno tipiziran jezik** (ML) : podatkovnih tipov nam ni potrebno eksplicitno zapisati
+ - **Eksplicitno tipiziran jezik** (Java, C++, ...): Potreben ekspliciten zapis tipov
+
+Ker je ML implicitno tipiziran ima mehanizem za samodejno določanje podatkovnih tipov.
+

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="aa103374-ba86-4c6c-9e39-a29d2aed1b4f" name="Default Changelist" comment="" />
+    <list default="true" id="2b3a0ab4-bcbb-45e4-9895-8c680364cbe2" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -11,10 +11,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
   </component>
-  <component name="ProjectId" id="20MmNcuquHIASLRKdiOA9wCbyYw" />
+  <component name="ProjectId" id="20oZ0h3AbvCN5xdkNZdw827K2Hn" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../dn6/06midi-master" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -29,9 +29,9 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="SimpleDistortor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="cbsp.SimpleDistortor" />
-      <module name="05Clipping" />
+    <configuration name="MIDIsynthesizer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cbsp.MIDIsynthesizer" />
+      <module name="06MIDI" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="cbsp.*" />
@@ -44,7 +44,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.SimpleDistortor" />
+        <item itemvalue="Application.MIDIsynthesizer" />
       </list>
     </recent_temporary>
   </component>
@@ -53,11 +53,11 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="aa103374-ba86-4c6c-9e39-a29d2aed1b4f" name="Default Changelist" comment="" />
-      <created>1635862791166</created>
+      <changelist id="2b3a0ab4-bcbb-45e4-9895-8c680364cbe2" name="Default Changelist" comment="" />
+      <created>1636712679264</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1635862791166</updated>
+      <updated>1636712679264</updated>
     </task>
     <servers />
   </component>
@@ -66,9 +66,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
