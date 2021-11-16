@@ -44,6 +44,7 @@ public class Distortor extends Circuit implements UnitSource {
 		add(delay = new InterpolatingDelay());
 		delay.input.connect(outputGain.output);
 		delay.allocate(1);
+		delay.delay.set(0.001);
 		feedback = delay.output;
 	}
 
