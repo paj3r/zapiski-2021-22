@@ -680,14 +680,14 @@ V podpisu določimo samo podatkovne tipe deklaracij. Podpis mora biti skladen z 
 Uporaba podpisov modulov je koristna, ker z njim skrivamo implementacijo, ker je lastnost dobre in robustne programske opreme. S skrivanjem implementacije dosežemo:
 
 	1. Uporabnik ne pozna načina implementacije operacij; lahko jo tudi kasneje spremenimo
- 	2. Uporabniku onemogočimo, da uporablja modul na napačen način
+	2. Uporabniku onemogočimo, da uporablja modul na napačen način
 
 **Ustreznost modula in podpisa**:
 
 	1. Vsi ne-abstraktni tipi, ki smo jih navedli v podpisu, morajo biti v modulu (datatype)
- 	2. Vsi abstraktni tipi iz podpisa (type) so implementirani v modulu s type ali datatpe
- 	3. Vsaka deklaracija vrednosti (val) v podpisu se nahaja v modulu (v modulu je lahko bolj splošnega tipa)
- 	4. Vsaka izjema (exception) v podpisu se nahaja tudi v modulu
+	2. Vsi abstraktni tipi iz podpisa (type) so implementirani v modulu s type ali datatpe
+	3. Vsaka deklaracija vrednosti (val) v podpisu se nahaja v modulu (v modulu je lahko bolj splošnega tipa)
+	4. Vsaka izjema (exception) v podpisu se nahaja tudi v modulu
 
 za kolokvij: refaktirozacija polj, rekurzivno vezanje vzorcev, določanje pod. tipa funkcije, ugotavljanje kaj funkcija vrne v leksikalnem/dinamičnem dosegu, moduli, repna, čelna rekurzija
 
@@ -750,4 +750,16 @@ Izrazi :
 Logične vrednosti #t in #f
 
 #### Seznami in pari
+
+seznnami in pari se tvorijo z istim konstruktorjem (cons) <- prednosti dinamično tipiziranega jezika
+
+```scheme
+cons ; konstruktor
+null ; prazen element
+null? ; ali je seznam prazen
+car ; gpava
+cdr ; rep
+; funkcija za tvorjenje seznama
+(list e1 e2 ... en)
+```
 
