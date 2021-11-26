@@ -595,3 +595,171 @@ Tipizacja glede na implicitnost:
 
 Ker je ML implicitno tipiziran ima mehanizem za samodejno določanje podatkovnih tipov.
 
+#### Predavanje 7
+
+#### Moduli
+
+```ocaml
+fun liho x =
+	if x=0
+	then false
+	else sodo (x-1)
+fun sodo x =
+	if x=0
+	then true
+	else liho (x-1)
+```
+
+Ne prevede se, ker funkcija sodo ni vezana v trenutnu, ko je poklicana. 
+Rešitev :
+
+```ocaml
+fun liho x =
+	if x=0
+	then false
+	else sodo (x-1)
+and sodo x =
+	if x=0
+	then true
+	else liho (x-1)
+```
+
+Deluje tudi za podatkovne tipe
+
+```ocaml
+datatype tip1 = <def>
+and tip2 = <def>
+and tip3 = <def>
+```
+
+**Moduli** omogočajo : 
+
+	- Organiziranje programske kode v smiselne celote
+	- Preprečevanje senčenja (isto ime v večih modulih)
+
+Znotraj modaula se sklicujemo na deklarirane objekte enako, kot smo se prej v "zunanjem" okolju. Iz "zunanjega" okolja se na deklaracije v modulu sklicujemo z uporabo predpone "ImeModula.ime". Deluje  podobno kot Java class.
+Sintaksa za deklaracijo modula:
+
+```ocaml
+structure MyModule
+struct
+	<deklaracija val, fun, datatype, ...>
+end
+(*Primer*)
+structure Nizi =
+struct
+	val prazni_niz=""
+	fun prvacrka niz =
+		hd (String.explode niz)
+end
+```
+
+#### Javno dostopne deklaracije
+
+Modulu lahko določimo, katere deklaracije so na razpolago "javnosti" in katere so zaseble (public in private v Javi). Seznam javnih deklaracij strnemo v podpis modula (signature), nato podpis pripišemo modulu
+
+```ocaml
+signature PolinomP =
+sig
+	datatype polinom = Nicla | Pol of (int*int) list
+	val novipolinom : int list -> polinom
+	val mnozi : polinom -> int -> polinom
+	val izpisi : polinom -> string
+end
+
+Structure Polinom :> PolinomP =
+struct
+	<deklaracija>
+end
+```
+
+V podpisu določimo samo podatkovne tipe deklaracij. Podpis mora biti skladen z vsebino modula, sicer preverjanje tipov nebo uspešno.
+
+#### Skrivanje implementacije
+
+Uporaba podpisov modulov je koristna, ker z njim skrivamo implementacijo, ker je lastnost dobre in robustne programske opreme. S skrivanjem implementacije dosežemo:
+
+	1. Uporabnik ne pozna načina implementacije operacij; lahko jo tudi kasneje spremenimo
+	2. Uporabniku onemogočimo, da uporablja modul na napačen način
+
+**Ustreznost modula in podpisa**:
+
+	1. Vsi ne-abstraktni tipi, ki smo jih navedli v podpisu, morajo biti v modulu (datatype)
+	2. Vsi abstraktni tipi iz podpisa (type) so implementirani v modulu s type ali datatpe
+	3. Vsaka deklaracija vrednosti (val) v podpisu se nahaja v modulu (v modulu je lahko bolj splošnega tipa)
+	4. Vsaka izjema (exception) v podpisu se nahaja tudi v modulu
+
+za kolokvij: refaktirozacija polj, rekurzivno vezanje vzorcev, določanje pod. tipa funkcije, ugotavljanje kaj funkcija vrne v leksikalnem/dinamičnem dosegu, moduli, repna, čelna rekurzija
+
+### Racket
+
+Je funkcijski jezik - vse je izraz, ovojnice, anonimne funkcije, currying. Je dinamično tipiziran: uspešno prevede več programov, vendar se večina napak zgodi šele pri izvajanju.
+
+Primeren za učenje novih konceptov: zakasnjena evalvacija, tokovi, makri, memoizacija
+Naslednik jezika Scheme.
+
+```scheme
+#lang racket
+; to je komentar
+
+# |
+VEč
+vrstični
+komentar
+| #
+(define x "Hello world")
+
+(define q 3)
+
+> (+ q 2) ;vse operacije se izvajajo infiksno deluje tudi (+ 2 3 4 ...)
+
+(define sestej1 ; funkcija za seštevanje dveh števil
+  (lambda (a b)
+    (+ a b)))
+> (sestej1 5 12); klic funkcije
+
+(define (sestej2 a b) ; alternativna sestej1
+  (+ a b))
+;#f in #t sta false in true
+(if (< 2 3) "Danes je lep dan" 55) ;; primer if stavka (vrne lahko različne tipe)
+
+(define (potenca x n)
+  (if (= n 0)
+      1
+      (* x (potenca x (- n 1)))))
+```
+
+Različni pomeni izrazov v odvisnosti od oklepajev:
+
+```scheme
+e ; izraz
+(e) ; klic funkcije e, ki sprejme 0 argumentov
+((e)); klic rezultata funkcije e , ki prejme 0 argumentov
+```
+
+**Oklepaji** omogočajo nedvoumno sintakso(pripriteta operatorjev) in predstavitev v drevesni obliki (razlčenjevanje)
+
+#### Osnove
+
+Izrazi :
+
+ - Atomi - konstante, izrazi, ...
+ - rezervirane besede - lambda, define, if, ...
+ - zaporedja izraov v oklepajih (e1 e2 e4)
+
+Logične vrednosti #t in #f
+
+#### Seznami in pari
+
+seznnami in pari se tvorijo z istim konstruktorjem (cons) <- prednosti dinamično tipiziranega jezika
+
+```scheme
+cons ; konstruktor
+null ; prazen element
+null? ; ali je seznam prazen
+car ; gpava
+cdr ; rep
+; funkcija za tvorjenje seznama
+(list e1 e2 ... en)
+```
+
