@@ -45,7 +45,6 @@ public abstract class FiltersBase {
       boolean play = true;
 		if (play)
 		output.connect(lineOut.input);
-
 		output.connect(recorder.getInput());
 		recorder.start();
 

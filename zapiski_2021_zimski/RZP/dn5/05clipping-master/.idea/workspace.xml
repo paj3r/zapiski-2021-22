@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="aa103374-ba86-4c6c-9e39-a29d2aed1b4f" name="Default Changelist" comment="" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="aa103374-ba86-4c6c-9e39-a29d2aed1b4f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/.idea/runConfigurations.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../FP/fp-vaje/04.sml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../FP/fp-vaje/04.sml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dn2/RZP/src/main/java/cbsp/SoundGeneratorA.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../dn2/RZP/src/main/java/cbsp/SoundGeneratorA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dn2/RZP/target/classes/cbsp/SoundGeneratorA.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../dn2/RZP/target/classes/cbsp/SoundGeneratorA.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dn3/03clickfilter-master/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../dn3/03clickfilter-master/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dn3/03clickfilter-master/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../dn3/03clickfilter-master/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dn3/03clickfilter-master/src/main/media/output.wav" beforeDir="false" afterPath="$PROJECT_DIR$/../../dn3/03clickfilter-master/src/main/media/output.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/04FiltersInFrequencyDomain.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/04FiltersInFrequencyDomain.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/src/main/java/cbsp/FiltersBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/src/main/java/cbsp/FiltersBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/src/main/java/cbsp/GenerateParameters.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/src/main/java/cbsp/GenerateParameters.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/src/main/java/cbsp/SimpleFilters.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/src/main/java/cbsp/SimpleFilters.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/target/classes/cbsp/FiltersBase.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/target/classes/cbsp/FiltersBase.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/target/classes/cbsp/SimpleFilters.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../dn4/04filtersinfrequencydomain-master/target/classes/cbsp/SimpleFilters.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -11,22 +33,20 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/cbsp/PluckedString.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/cbsp/Distortor.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/cbsp/SimpleDistortor.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="ProjectId" id="20MmNcuquHIASLRKdiOA9wCbyYw" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../dn6/06midi-master" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../dn7/07audiostreaming-master" />
   </component>
   <component name="RunManager">
     <configuration name="SimpleDistortor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -48,6 +68,7 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -58,20 +79,27 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1635862791166</updated>
+      <workItem from="1637661241287" duration="31000" />
+      <workItem from="1637663921745" duration="14000" />
+      <workItem from="1637669772382" duration="251000" />
+      <workItem from="1637674375132" duration="34000" />
+      <workItem from="1637910816526" duration="14000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

@@ -28,15 +28,15 @@ public class GenerateParameters {
             System.out.println("Student ID: " + studentID);
             System.out.println("Task 1");
             System.out.println("    Generate three sine signals using JSyn API with the following parameters and sum them together:");
-            System.out.println("    - Frequency 1: " + (random.nextInt(100, 1000)));
+            System.out.println("    - Frequency 1: " + (random.nextInt(900)+100));
             BigDecimal bd = BigDecimal.valueOf(0.3 + (1.0 - 0.3) * random.nextDouble()).setScale(2, RoundingMode.HALF_UP);
             double value = bd.doubleValue();
             System.out.println("    - Amplitude 1: " + value);
-            System.out.println("    - Frequency 2: " + (random.nextInt(1500, 4000)));
+            System.out.println("    - Frequency 2: " + (random.nextInt(2500)+1500));
             bd = BigDecimal.valueOf(0.3 + (1.0 - 0.3) * random.nextDouble()).setScale(2, RoundingMode.HALF_UP);
             value = bd.doubleValue();
             System.out.println("    - Amplitude 2: " + value);
-            System.out.println("    - Frequency 3: " + (random.nextInt(4500, 8000)));
+            System.out.println("    - Frequency 3: " + (random.nextInt(3500)+4500));
             bd = BigDecimal.valueOf(0.3 + (1.0 - 0.3) * random.nextDouble()).setScale(2, RoundingMode.HALF_UP);
             value = bd.doubleValue();
             System.out.println("    - Amplitude 3: " + value);

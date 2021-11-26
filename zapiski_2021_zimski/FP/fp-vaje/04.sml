@@ -60,9 +60,16 @@ fun quicksort f l =
 
 fun dot l1 l2 = List.foldl (fn (x,y) => x+y) 0 (ListPair.map (fn (x,y) => x*y) (l1,l2))
 
-fun transpose l = l
+fun transpose l = 
+    let
+        val vrst = length l
+        val stol = if vrst>0 then length (List.nth(l,0)) else 0
+    in
+        List.tabulate (stol, fn x => List.map (fn y => (List.nth (y,x))) l)
+    end
 
-fun multiply l1 l2 = l1
+fun multiply l1 l2 =
+    List.map (fn x => List.map (fn y => dot x y) (transpose l2)) l1
 
 fun group l = [(hd(l),1)]
 

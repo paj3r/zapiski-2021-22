@@ -70,19 +70,6 @@ public class SoundGeneratorA {
             source.open(af);
             source.start();
 
-            byte[] buf = new byte[sampleRate * seconds]; 							// sampleRate * seconds = signal length
-
-            // TODO Task 1.
-            double diff = (2*Math.PI*frequency)/sampleRate;
-            double pos = 0;
-            for(int i = 0;i<buf.length;i++){
-                buf[i] = (byte) (Math.cos(pos)*amplitude);
-                pos = pos + diff;
-            }
-            source.write(buf, 0, buf.length);									// Write buffer to the SourceDataLine.
-            source.drain();															// Play the samples in the buffer.
-            source.stop();
-            source.close();
              */
             /* TASK C
             int seconds = 4;															// Duration of our signal.
@@ -100,9 +87,6 @@ public class SoundGeneratorA {
             source.open(af);
             source.start();
 
-            byte[] buf = new byte[sampleRate * seconds]; 							// sampleRate * seconds = signal length
-
-            // TODO Task 1.
             double diff = (2*Math.PI*frequency)/sampleRate;
             double pos = 0;
             for(int i = 0;i<buf.length;i++){
