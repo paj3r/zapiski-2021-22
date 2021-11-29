@@ -79,4 +79,62 @@ fun f2 c l1 = general c l1 0
 fun f3 c l1 = general (not c) (SOME l1) NONE
 (*4.*)
 fun filter f l = List.foldl (fn (x,acc) => if f x then x::acc else acc) [] l
+
+(*2019 kolokvij*)
+(*1.*)
+(*a*)
+(*[i,j]: ((a' option)*int) list *)
+(*c::d: bool list*)
+(*a: fn : int-> a' option*)
+(*b: fn : a' option -> int*)
+(*f1: fn ((int->a')*(int option->a')*bool list) -> int list-> b' -> a'*)
+fun f1 (a,b,c::d) [i,j] =
+    if c
+    then fn a => b (SOME i)
+    else fn b => a (j+1)
+(*b*)
+(*leks*) (*fun f v = fn w => 1 + v + w ====>  rez1 = (f 5) 6 = 12, rez2 = (f 5) 6 = 12*)
+(*din*) (*rez1 = 12, rez2 = 14*)
+(*2.*)
+datatype ('a, 'b) chain = Node of {a: 'a ref, b: 'b}*('b, 'a) chain | final
+
+fun chain_to_list c =
+    case c of
+        final => []
+    |   x => [x]
+
+(*3.*)
+(*
+    signature Podpis
+    sig
+        datatype barva = Pik | Karo | Srce | Kriz
+        type karta = Joker
+        val nova_karta : barva * int -> karta
+        val dodaj_v_roke : karta -> karte
+        val pokazi_roke : unit -> karte
+
+    end
+*)
+(*4.*)
+fun first_op sez =
+    case sez of
+        nil => [true]
+    |   g::r => (not g)::(second_op r)
+and second_op sez =
+    case sez of
+        nil => [false]
+    |   g::r => (g)::(third_op r)
+and third_op sez =
+    case sez of
+        nil => nil
+    |   g::r => true::(first_op r)
+
+fun op123 sez c1 a1 a2 =
+    case sez of
+        nil => c1::nil
+    |   g::r => (a1 g)::(a2 r)
+
+fun first_op2 sez =
+    op123 sez true not (second_op)
+
         
