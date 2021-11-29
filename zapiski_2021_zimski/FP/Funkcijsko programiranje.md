@@ -595,7 +595,7 @@ Tipizacja glede na implicitnost:
 
 Ker je ML implicitno tipiziran ima mehanizem za samodejno določanje podatkovnih tipov.
 
-#### Predavanje 7
+## Predavanje 7
 
 #### Moduli
 
@@ -757,9 +757,71 @@ seznnami in pari se tvorijo z istim konstruktorjem (cons) <- prednosti dinamičn
 cons ; konstruktor
 null ; prazen element
 null? ; ali je seznam prazen
-car ; gpava
+car ; glava
 cdr ; rep
 ; funkcija za tvorjenje seznama
 (list e1 e2 ... en)
 ```
+
+## Predavanje 8
+
+#### Dinamično tipiziranje
+
+Racket pri prevajanju ne preverja podatkovnih tipov.
+**Slabost:** uspešno lahko prevede programe, pri katerih pride do napake pri izvajanju.
+**Prednost:** naredimo lahko bolj fleksibilne programe, ki niso odvisni od pravil sistema za statično tipiziranje (fleksibilne strukture brez deklaracije tipov)
+
+#### Stavek cond
+
+Namesto vgnezdenih if stavkov, podobno kot pattern matching
+
+```scheme
+(cond [pogoj1 e1]
+      [pogoj2 e2]
+      ...
+      [pogojn en])
+```
+
+Podobno kot switch stavek.
+
+#### Lokalno okolje
+
+Definiranje lokalnega okolja za različnee potrebe (kot let in end v SML)
+
+```scheme
+let ;;izrazi se evalvacijo v okolju PRED izrazom let
+let* ;; izrazi se evalvirajo kot rezultat predhodnih deklaracij (tako dela SML)
+letrec ;; izrazi se evalvirajo v okolju, ki vključuje vse podane deklaracije (vzajeemna rekurzija)
+define ;; semantika ekvivalentna kot pri letrec, le drugačna sintaksa
+```
+
+letrec in define podobno kot vzajemmna rekurzija v SML. pozor: Izrazi se evalvirajo v vrstnem redu takrat morajo biti spremenjivke definirane; izjema so funkcije: telo se izvede šele ob klicu funkcije
+(globalne) deklaracije v programski datoteki se obnašajo kot letrec.
+
+Z letrec se vse spremenljivke naenkrat naložiijo v statično okolje, ampak, to ne pomeni, da so vezave vrednosti storjene. npr.
+
+```scheme
+;; to se prevede, ampak program reče, da spremenljivka d ni evalvirana
+(define (test-letrec a)
+letrec ([b 3]
+        [c (+ d 1)]
+        [d (+ a 1)])
+  (+ a d))
+;; se prevede in deluje, ker je funkcija
+(define (test-letrec a)
+letrec ([b 3]
+        [c lambda(x) (+ a b d x)]
+        [d (+ a 1)])
+  (+ c d))
+```
+
+#### Zakasnjena evalvacija
+
+(angl. Lazy evaluation)
+
+semantika programskega jezika mora opredeljevati kdaj se izrazi evalvirajo.
+Spomnimo se primera deklaracij (deffine x e):
+
+	- če je e aritmetični izraz se ta evalvira tkoj ob vezavi, v x se shrani rezultat(takojšnja ali zgodna evalvacija angl. eager evaluation)
+	- Če je e funkcija, torej (lambda ...) se telo evalvira šele ob klicu (x) (Zakasnjena evalvacija angl delayed evaluation)
 

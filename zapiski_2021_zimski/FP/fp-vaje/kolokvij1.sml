@@ -47,7 +47,7 @@ and preveri_drugi i =
 (*h: fn int->a'*)
 (*[i,j]: bool option list*)
 (*k : int*)
-(*f: fn (int->string*int->string)*(bool option list')->int->int->string*)
+(*f: fn {g: int->string, h:int->string}*(bool option list')->int->int->string*)
 fun f ({g=g,h=h}, [i,j]) k =
     if valOf i
     then fn x => g (k+x)
@@ -137,4 +137,14 @@ fun op123 sez c1 a1 a2 =
 fun first_op2 sez =
     op123 sez true not (second_op)
 
+exception MatematicnaTezava of int*string
+
+fun deli3 (a1, a2) =
+    if a2 = 0 
+    then raise MatematicnaTezava(a1, "deljenje z 0")
+    else a1 div a2
+
+fun tabeliraj3 zacetna =
+    Int.toString(deli3(zacetna,zacetna-5)) ^ "  " ^ tabeliraj3(zacetna-1) 
+    handle MatematicnaTezava(a1, a2) => a2 ^ " stevila " ^ Int.toString(a1)
         
