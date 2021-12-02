@@ -99,23 +99,85 @@ struct
   type t = R.t
   structure Vec =
     struct
-      fun dot _ _ = raise NotImplemented
+      fun dot a b =
+        case a of
+          [] => R.zero
+        | h::t => case b of
+                    [] => R.zero
+                  | h1::t1 => R.+(R.*(h,h1) , dot t t1)
       fun add a b =
         case a of
           [] => []
         | h::t => case b of
                     [] => []
-                  | h1::t1 => (h+h1) :: add t t1
+                  | h1::t1 => R.+(h,h1) :: add t t1
 
-      fun sub _ _ = raise NotImplemented
-      fun scale _ _ = raise NotImplemented
+      fun sub a b =
+        case a of
+          [] => []
+        | h::t => case b of
+                    [] => []
+                  | h1::t1 => R.+(h,R.neg(h1)) :: sub t t1
+      fun scale n a =
+        case a of
+          [] => []
+        | h::t => (R.* (h,n)) :: scale n t
     end
 
-  fun tr _ = raise NotImplemented
-  fun mul _ _ = raise NotImplemented
-  fun id _ = raise NotImplemented
-  fun join _ _ = raise NotImplemented
-  fun inv _ = raise NotImplemented
+  fun tr l = 
+    let
+        val vrst = length l
+        val stol = if vrst>0 then length (List.nth(l,0)) else 0
+    in
+        List.tabulate (stol, fn x => List.map (fn y => (List.nth (y,x))) l)
+    end
+  fun mul l1 l2 =
+    List.map (fn x => List.map (fn y => Vec.dot x y) (tr l2)) l1
+  fun id n = List.tabulate (n, fn x => List.tabulate(n, fn y => if x=y then R.one else R.zero))
+  fun join a b = 
+    case a of
+      [] => b
+    | h::t =>  case b of
+        [] => a
+      | h1::t1 => (h@h1) :: join t t1
+      (*redukcija vrstic, permutacija vrstic, da je zgoraj levo enko*)
+      (*redukcija: reduction v: (1xt) m: (l*(t+1)) -> m': l*t*)
+      (*pivot : m: n*n -> m' : n*n rezultat ma v zgornjem kotu 1. Če inverz vrne some*)
+      (*gauss: 2 acc: above[], curr[A|I], najprj pivot na curr, zreduciramo vse vstice pod to,
+       če above ni prazna še above reduciramo. rek klic: gauss (reduce v' above @[v'(pivot vrstica brez 1 spredej)])
+       reduce v' curr*)
+  fun inv [] = NONE |
+    inv m =
+      let
+      fun pivot (mat, acc) = 
+        case mat of
+          [] => NONE
+        | h::t =>
+          let
+            val inverz = R.inv (hd h)
+          in
+            if isSome(inverz)
+            then SOME ([Vec.scale (valOf(inverz)) h]@ t @ acc )
+            else pivot (t,h::acc)
+          end
+      fun reduce (vekt, mat) = 
+        case mat of
+          [] => []
+        | h::t => (Vec.sub (tl h) (Vec.scale (hd h) vekt))::reduce(vekt, t)
+      fun gauss (above, curr) =
+        let
+          val piv = pivot (curr, [])
+        in
+          if null curr then SOME above
+          else
+            if isSome(piv)
+            then case piv of
+              SOME (h::t) => gauss((reduce ((tl h),above))@[(tl h)], reduce ((tl h), t))
+            else NONE
+        end
+      in
+       gauss([],join m (id (length m)))
+      end
 end;
 
 structure RationalFiled :> RING where type t = IntInf.int * IntInf.int =
