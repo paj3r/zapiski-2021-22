@@ -25,11 +25,23 @@ import ddf.minim.analysis.*;
     print(fftr.getBand(0)+" ");
     for(int i = 0; i < fftr.specSize(); i++){
       // draw the line for frequency band i, scaling it up a bit so we can see it
-      line(width,height-(i*2), width-fftr.getBand(i),height-i*2 );
+      if (fftr.getBand(i)>5 && fftr.getBand(i+i+1)>2){
+        stroke(204, 102, 0,255*(fftr.getBand(i+i+1)/fftr.getBand(i)));
+      }else
+     {  
+       stroke(255,255*(fftr.getBand(i+i+1)/fftr.getBand(i)));
+      }
+      line(width,height-(i*2), width-(fftr.getBand(i)*3),height-i*2 );
     }
     for(int i = 0; i < fftl.specSize(); i++){
       // draw the line for frequency band i, scaling it up a bit so we can see it
-      line(0,height-(i*2), fftl.getBand(i),height-i*2 );
+      if (fftl.getBand(i)>5 && fftl.getBand(i+i+1)>2){
+        stroke(204, 102, 0,255*(fftl.getBand(i+i+1)/fftl.getBand(i)));
+      }else
+     {  
+       stroke(255,255*(fftr.getBand(i+i+1)/fftr.getBand(i)));
+      }
+      line(0,height-(i*2), fftl.getBand(i)*3,height-i*2 );
     }
 
    }
