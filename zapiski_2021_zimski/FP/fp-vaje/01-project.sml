@@ -233,8 +233,31 @@ functor HillCipherAnalyzer (M : MAT) :> CIPHER
 struct
   type t = M.t
   
-  fun encrypt key plaintext = raise NotImplemented
-  fun decrypt key ciphertext = raise NotImplemented
+  fun encrypt key plaintext =
+  let
+    val l = length key
+    val pt = split l plaintext
+    fun pomozna (k,ptext) =
+      case ptext of 
+        [] => []
+      | h::t => hd (M.mul (h::[]) k) @ pomozna (k,t)
+  in
+    pomozna (key,pt)
+  end
+  fun decrypt key ciphertext = 
+    let
+    val invKey = M.inv key
+    val l = length key
+    val ct = split l ciphertext
+    fun pomozna (k,ctext) =
+      case ctext of 
+        [] => []
+      | h::t => hd (M.mul (h::[]) k) @ pomozna (k,t)
+  in
+    if isSome (invKey)
+    then SOME (pomozna (valOf (invKey),ct))
+    else NONE
+  end
   fun knownPlaintextAttack keyLenght plaintext ciphertext = raise NotImplemented
 end;
 

@@ -11,7 +11,8 @@ import ddf.minim.analysis.*;
     smooth();
 
       minim = new Minim(this);
-      player = minim.loadFile("../media/03 - Spaghettification.mp3",512);
+//      player = minim.loadFile("../media/03 - Spaghettification.mp3",2048);
+      player = minim.loadFile("../media/piano-moment-9835.mp3",2048);
       player.play();
       fftr = new FFT( player.bufferSize(), player.sampleRate() );
       fftl = new FFT( player.bufferSize(), player.sampleRate() );
@@ -22,26 +23,26 @@ import ddf.minim.analysis.*;
     strokeWeight(3);
     fftl.forward(player.left);
     fftr.forward(player.right);
-    print(fftr.getBand(0)+" ");
+//    print(fftr.specSize()+" ");
     for(int i = 0; i < fftr.specSize(); i++){
       // draw the line for frequency band i, scaling it up a bit so we can see it
-      if (fftr.getBand(i)>5 && fftr.getBand(i+i+1)>2){
+      if (fftr.getBand(i)>5 && fftr.getBand(i+i+1)>4){
         stroke(204, 102, 0,255*(fftr.getBand(i+i+1)/fftr.getBand(i)));
       }else
      {  
        stroke(255,255*(fftr.getBand(i+i+1)/fftr.getBand(i)));
       }
-      line(width,height-(i*2), width-(fftr.getBand(i)*3),height-i*2 );
+      line(width,height-(i*2), width-(fftr.getBand(i)*2),height-i*2 );
     }
     for(int i = 0; i < fftl.specSize(); i++){
       // draw the line for frequency band i, scaling it up a bit so we can see it
-      if (fftl.getBand(i)>5 && fftl.getBand(i+i+1)>2){
+      if (fftl.getBand(i)>5 && fftl.getBand(i+i+1)>4){
         stroke(204, 102, 0,255*(fftl.getBand(i+i+1)/fftl.getBand(i)));
       }else
      {  
        stroke(255,255*(fftr.getBand(i+i+1)/fftr.getBand(i)));
       }
-      line(0,height-(i*2), fftl.getBand(i)*3,height-i*2 );
+      line(0,height-(i*2), fftl.getBand(i)*2,height-i*2 );
     }
 
    }

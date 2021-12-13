@@ -825,3 +825,178 @@ Spomnimo se primera deklaracij (deffine x e):
 	- če je e aritmetični izraz se ta evalvira tkoj ob vezavi, v x se shrani rezultat(takojšnja ali zgodna evalvacija angl. eager evaluation)
 	- Če je e funkcija, torej (lambda ...) se telo evalvira šele ob klicu (x) (Zakasnjena evalvacija angl delayed evaluation)
 
+## Predavanje 9
+
+```scheme
+; zaporedje izrazov
+(begin e1 e2 ... en)
+; par katerega komponente lahko spreminjamo kot en arraylist je to
+mcons ; konstruktor
+mcar ; glava
+mcdr ; rep
+mpair? ; je par?
+set-mcar! ; nastavi novo glavo
+set-mcdr! ; nastavi novi rep
+```
+
+#### Zakasnitev in sprožitev
+
+Mehanizem je že vgrajen v Racket. Delay prejme zakasnitveno funkcij in vrne par s komponentama: bool: intikator ali je izraz evalviran, zakasnitvena funkcija ali evalviran izrraz
+
+```scheme
+;ZAKASNITEV
+(define (my-delay thunk)
+  (mcons #f thunk))
+;Sprožitev
+(define (my-force prom)
+  (if (mcar prom)
+      (mcdr prom)
+      (begin (set-mcar! prom #t)
+             (set-mcdr! prom ((mcdr prom)))
+             (mcdr prom))))
+```
+
+#### Tokovi
+
+**Tok:**  neskončno zaporedje vrednosti (npr. naravna pptevila), ki ga ne moremo definirati s podajanjem vseh vreddnosti. Ideja: podajmo le (trenutno) vrednost in zakasnimo evalvacijo (thunk) za izračun naslednje vrednosti. Definiramo kot par *'(vrednost . funkcija-za-naslednji)*
+
+```scheme
+; tok enk
+(define enke (cons 1 (lambda () enke)))
+; tok naravnih števil
+(define naravna
+  (letrec ([f (lambda (x) (cons x (lambda () (f (+ x 1)))))])
+    (f 1)))
+;izpisi
+(define (izpisi n tok)
+  (if (> n 1)
+      (begin
+       (displayIn (car tok))
+       (izpisi (- n 1) ((cdr tok))))
+      (displayIn (car tok))))
+```
+
+#### Memoizacija
+
+Če funkcija pri istih argumentih svakič vrača isti odgovor in nima stranskih učinkov, lahko shranimo odgovore za večkratno uporabo.
+Implementacija:
+
+ - Uporabimo seznam parov dosedanjih rešitev '((arg1, odg1), ... , (argn, odgn))'
+   	- Ne želimo, da je globalno dostopen
+    - ne sme biti v rekurzivni funkciji, kje bo spraznil z vsakim klicem
+ - Če rešitev obstaja, jo beremo iz seznama (Pomagamo si z vgrajeno funkcijo assoc)
+ - Če rešitve še ni, jo izračunamo -> dopolnimo seznam rešitev
+   	- Za dopolnitev seznama potrebujemo mutacijo (set!)
+
+## Predavanje 10
+
+#### Makro
+
+Makro definira, kako sintakso v programskem jeziku preslikamo v drugo sintakso:
+
+- orodje, ki ga ponuja prog. jezik
+- razširitev jezika z novimi ključnimi besedami
+- impementacija sintaktičnih olepšav
+
+Programski jeziki (racket, C, ...) imajo posebno sintaks za definiranje makrov.
+Postopek razširitve makro definicij se izvede pred prevajanjem in izvajanjem programa. Primeri:
+
+- Lasten if stavek: *(moj-if pogoj then e1 else e2)*
+
+  ```scheme
+  (define-syntax moj-if
+  	(syntax-rules (then else)
+      	[(moj-if e1 then e2 else e3)
+           (if e1 e2 e3)]))
+  ```
+
+- trojni if: *(if3 pog then e1 elsif pogoj2 then e2 else e3)*
+
+  ```scheme
+  (define-syntax if3
+  	(syntax-rules (then elsif else)
+      	[(if3 pogoj1 then e1 elsif pogoj2 then e2 else e3)
+           (if pogoj1 e2 (if pogoj2 e2 e3))]))
+  ```
+
+- elementi toka: *(prvi tok), (drugi tok), (tretji tok)*
+
+  ```scheme
+  (define-syntax prvi
+  	(syntax-rules ()
+      	[(prvi e)
+           (car e)]))
+  (define-syntax drugi
+  	(syntax-rules ()
+      	[(drugi e)
+           (cdr (cdr e)]))
+  (define-syntax tretji
+  	(syntax-rules ()
+      	[(tretji e)
+           (cdr ((cdr ((car e)))))]))
+  ```
+
+- komentiranje spremenljivk: *(anotiraj xyz "trenutni stevec")*
+
+  ```scheme
+  (define-syntax anotiraj
+  	(syntax-rules ()
+      	[(anotiraj e s)
+           e]))
+  ```
+
+#### Definicije makrov
+
+Rezervirana baseda *define-syntax*. Preostae ključne besede opredelimo s *syntax-rules*.
+V [...] podamo vzorce za makro razširitev.
+
+##### 1. Makro / funkcija
+
+```scheme
+(define-syntax my-delaym 
+	(syntax-rules ()
+     	[(my-delaym e)
+         (mcons #f (lambda () e))]))
+;(my-delaym (+ 3 2))
+(define (my-delay thunk)
+  (mcons #f thunk))
+;(my-delay (lambda () (+ 3 2)))
+```
+
+##### 2. prioriteta izračunov
+
+Racket težav s prioriteto nima, ker uporablja infiksno notacijo, ki opredeljuje prioriteto operacij
+
+##### 3. način evalvacije
+
+Pri macrotu se ob vsakem pojavu spremenljivke kliče spremenljivka, zato rašji uporabljamo funkcije ali pa lokalno okolje.
+
+##### 4. semantika dosega
+
+Kaj se zgodi če makro uporablja iste spremenljivke, ki nastopajo že v funkciji?
+Naivna makro rešitev (uporabljena v C; je enakovredna find&replace) lahko povzroči težave.
+
+#### Lastni podatkovni tipi
+
+Je dinamično tipiziran, zato eksplicitna definicija alternativ ni potrebna.
+Preprosta rešitev:
+
+ - Simulacija alternativ z seznami oblike (tip vrednost1 ... vrednostn)
+ - Izdelava funkcij za preverjanje podatkovnega tipa in funkcij za dostop do elementov
+
+```scheme
+; datatype prevozno_sredstvo = Bus of int | Avto of string*string | Pes
+;konstruktor
+(define (Bus n) (list "bus" n))
+(define (Avto tip barva) (list "avto" tip barva))
+(define (Pes) (list "pes"))
+; preverjanje podatkovnega tipa
+(define (Bus? x) (eq (car x) "bus"))
+(define (Avto? x) (eq (car x) "avto"))
+(define (Pes? x) (eq (car x) "pes"))
+; funkcije za dostop do elementov
+(define (Bus-n x) (car (cdr x)))
+(define (Avto-tip x) (car (cdr x)))
+(define (Avto-barva x) (car (cdr (cdr x))))
+```
+
