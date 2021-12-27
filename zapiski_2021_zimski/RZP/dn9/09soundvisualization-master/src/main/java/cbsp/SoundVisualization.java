@@ -8,6 +8,7 @@ public class SoundVisualization extends PApplet
 {
     Minim minim;
     AudioPlayer player;
+    FFT fft;
 
     @Override
     public void settings() {
@@ -18,9 +19,12 @@ public class SoundVisualization extends PApplet
     public void setup() {
         smooth();
 
+
         minim = new Minim(this);
         player = minim.loadFile("src/main/media/Phlex - Take Me Home Tonight (feat. Caitlin Gare) [Argofox].mp3");
+        fft =   new FFT( player.bufferSize(), player.sampleRate() );
         player.play();
+
         background(0);
         int level = 0;
     }
@@ -54,6 +58,18 @@ public class SoundVisualization extends PApplet
         point(map(player.position()*7%(player.length()),0,player.length(),0,width),
                 map(player.position()*7/(player.length()),0,7,0,height));
         */
+        background(0);
+        stroke(255);
+
+        // perform a forward FFT on the samples in jingle's mix buffer,
+        // which contains the mix of both the left and right channels of the file
+        fft.forward( player.mix );
+
+        for(int i = 0; i < fft.specSize(); i++)
+        {
+            // draw the line for frequency band i, scaling it up a bit so we can see it
+            line( i, height, i, height - fft.getBand(i) );
+        }
 
 
 

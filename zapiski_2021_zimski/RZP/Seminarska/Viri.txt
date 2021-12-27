@@ -1,0 +1,3 @@
+https://morioh.com/p/089c0785132e
+https://www.pygame.org/docs/
+https://stackoverflow.com/questions/14734644/is-there-an-algorithm-to-get-the-scale-and-key-of-a-song-from-a-series-of-notes
