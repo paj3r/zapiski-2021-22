@@ -1000,3 +1000,29 @@ Preprosta rešitev:
 (define (Avto-barva x) (car (cdr (cdr x))))
 ```
 
+## Predavanje 11
+
+#### Razširitve
+
+1. definiranje spremenljivk
+2. definiranje lokalnih okolij
+3. definiranje funkcij (funkcijskih ovojnic)
+4. definiranje makrov
+
+#### Lokalno okolje
+
+```scheme
+(define (jais2 e)
+  (letrec ([jais (lambda e env)
+                 (cond |[(konst? e) e]
+                       |[(bool? e) e]
+                       |[(sestej? e) (let ([v1 (jais (sestej-e1 e) env)]
+                                           [v2 (jais (sestej-e2 e) env)]
+                                           )
+                                       (if (and (konst? v1) (konst? v2))
+                                           (konst (+ (konst-int v1)
+                                                     (konst-int v2)))
+                                           (error "seštevanec ni celo število")))])])
+    (jais e null)))
+```
+
