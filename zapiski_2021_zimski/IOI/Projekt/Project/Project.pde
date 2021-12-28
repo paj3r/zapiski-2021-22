@@ -12,12 +12,13 @@ import ddf.minim.analysis.*;
   float [] avgr = new float [1025];
   float [] avgl = new float [1025];
   public void setup() {
-    size(1280, 720);  
+    size(700, 700);  
     smooth();
 
       minim = new Minim(this);
       //player = minim.loadFile("../media/03 - Spaghettification.mp3",2048);
-      player = minim.loadFile("../media/piano-moment-9835.mp3",2048);
+      //player = minim.loadFile("../media/piano-moment-9835.mp3",2048);
+      player = minim.loadFile("../media/Get Back (1969 Glyn Johns Mix).mp3",2048);
       player.play();
       fftr = new FFT( player.bufferSize(), player.sampleRate() );
       fftl = new FFT( player.bufferSize(), player.sampleRate() );
@@ -25,7 +26,7 @@ import ddf.minim.analysis.*;
   public void draw() {
     //background(0);
     stroke(255);
-    strokeWeight(2);
+    strokeWeight(1);
     fftl.forward(player.left);
     fftr.forward(player.right);
     if (counter%8 == 0){
@@ -42,9 +43,9 @@ import ddf.minim.analysis.*;
           }
       }
       if (avgl[lmaxix] > avgr[rmaxix]){
-        myline(map((avgl[lmaxix]-avgr[lmaxix])/avgl[lmaxix],0,1,400, width-400), height/2, (int)avgl[lmaxix]*5, 4,lmaxix);
+        myline(map((avgl[lmaxix]-avgr[lmaxix])/avgl[lmaxix],0,1,350, width-350), map(player.position(),0,player.length(),0,700), (int)avgl[lmaxix]*4, 4,lmaxix);
       }else{
-        myline(map((avgr[rmaxix]-avgl[rmaxix])/avgr[rmaxix],0,1,400, width-400), height/2, (int)avgr[rmaxix]*5, 4,rmaxix);
+        myline(map((avgr[rmaxix]-avgl[rmaxix])/avgr[rmaxix],0,1,350, width-350), map(player.position(),0,player.length(),0,700), (int)avgr[rmaxix]*4, 4,rmaxix);
       }
       avgr = new float [1025];
       avgl = new float [1025];
