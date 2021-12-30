@@ -252,7 +252,7 @@ def get_chord_array_bass_chord(pm):
             else:
                 arr.append(major_keys[ix % 12] + "m")
         else:
-            arr.append("Null")
+            arr.append("")
     return arr
 
 
