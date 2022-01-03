@@ -1026,3 +1026,27 @@ Preprosta rešitev:
     (jais e null)))
 ```
 
+## Predavanje 12
+
+#### Funkcije z različnim številom argumentov
+
+**Poljubno št. argumentov** podamo z imenom spremenljivke brez oklepaja. V funkciji so vsi ti argumenti podani v seznamu, ki sledi ključni besedi lambda.
+
+```scheme
+(define izpisi
+  (lambda sez
+    (displayIn sez)))
+
+(define vsotamulti
+  (lambda stevila
+    (apply + stevila)))
+
+(define mnozilnik
+  (lambda (ime faktor . stevila)
+    (printf "-a-a-a-a"
+            "Zivjo "
+            ime
+            ", tvoj rezultat je"
+            (map (lambda (x) (* x faktor)) ))))
+```
+
