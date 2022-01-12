@@ -17,10 +17,13 @@ import ddf.minim.analysis.*;
   float [] avgr;
   float [] avgl;
   String filename;
+  String [] filenames;
   float avgvolr = 0f;
   float avgvoll = 0f;
   float prev = 100f;
   int winsize = 32;
+  int cursong = 0;
+  java.io.File folder;
   float[] frequencies = {32.703f,34.648f,36.708f,38.891f,41.203f,43.654f,46.249f,49f,51.931f,55f,58.270f,61.735f, 65.406f, 69.296f,73.416f, 77.782f,82.407f,87.307f,92.499f,
       97.999f, 103.83f, 110f,116.64f, 123.47f, 130.81f, 138.59f, 146.83f, 155.56f, 164.81f, 174.61f, 185.00f, 196.00f,207.65f, 220.00f, 233.08f, 246.94f, 261.6f, 277.18f,
       293.66f, 311.1f, 329.63f, 349.2f, 369.99f, 392.00f, 415.3f, 440.00f, 466.2f, 493.88f, 523.3f, 554.37f, 587.33f
@@ -29,16 +32,41 @@ import ddf.minim.analysis.*;
   int sampleRate = 44100;
   int frameSize = 4096;
   public void setup() {
-    size(900, 900);  
+    //size(900, 900);  
+    fullScreen();
     smooth();
     background(255);
+    folder = new java.io.File(sketchPath("../media"));
+      filenames = folder.list();
+  //println(filenames.length + ".properties.ser");
+
+  for(int i = 0; i < filenames.length; i++)
+  {
+    println(filenames[i]);
+  }
+        filename = stripExtension(filenames[cursong]);
+        minim = new Minim(this);
+        print(folder.getAbsolutePath());
+        player = minim.loadFile(folder.getAbsolutePath()+"\\"+filenames[cursong],frameSize);
+        player.play();
+        fftr = new FFT( player.bufferSize(), player.sampleRate() );
+        fftl = new FFT( player.bufferSize(), player.sampleRate() );
+        min = Float.MAX_VALUE;
+        max = Float.MIN_VALUE;
+        avgr = new float[fftr.specSize()];
+        avgl = new float[fftl.specSize()];
+        winsize = ceil((int)player.length()/9000)+2;
+        println(winsize);
+        fin= false;
+        exit=false;
+        background(255);
       //player = minim.loadFile("../media/03 - Spaghettification.mp3",frameSize);
       //player = minim.loadFile("../media/piano-moment-9835.mp3",frameSize);
       //player = minim.loadFile("../media/Get Back (1969 Glyn Johns Mix).mp3",frameSize);
       //player = minim.loadFile("../media/Toxic.mp3",frameSize);
       //player = minim.loadFile("../media/DJ Gumja - Seki Prasica (Original Mix) TECHSTURB050.mp3",frameSize);
       //player = minim.loadFile("../media/Phaxe & Morten Granau - Beatless.mp3",frameSize);
-      selectInput("Select a file to process:", "fileSelected");
+      //selectInput("Select a file to process:", "fileSelected");
   }
   void fileSelected(File selection) {
     if (selection == null) {
@@ -63,7 +91,7 @@ import ddf.minim.analysis.*;
   void fileSelectedOut(File selection) {
     if (selection == null) {
       println("Window was closed or the user hit cancel.");
-      exit();
+      exit=true;
     } else {
       println("User selected " + selection.getAbsolutePath());
       outname = selection.getAbsolutePath() + "\\" + filename + ".png";
@@ -144,12 +172,31 @@ import ddf.minim.analysis.*;
         avgvoll += player.left.level()/winsize;
       }
       counter++;
-      if (player.position() >= player.length()&&!fin){
+      if (!player.isPlaying()&&!fin){
         fin = true;
+        cursong++;
         selectFolder("Select a folder to write to:", "fileSelectedOut");
       }
-      if (exit)
+      if (exit&&cursong>=filenames.length)
         exit();
+      if (exit&&!(cursong>=filenames.length)){
+        println(cursong);
+        filename = stripExtension(filenames[cursong]);
+        minim = new Minim(this);
+        player = minim.loadFile(folder.getAbsolutePath()+"\\"+filenames[cursong],frameSize);
+        player.play();
+        fftr = new FFT( player.bufferSize(), player.sampleRate() );
+        fftl = new FFT( player.bufferSize(), player.sampleRate() );
+        min = Float.MAX_VALUE;
+        max = Float.MIN_VALUE;
+        avgr = new float[fftr.specSize()];
+        avgl = new float[fftl.specSize()];
+        winsize = ceil((int)player.length()/9000)+2;
+        println(winsize);
+        fin= false;
+        exit=false;
+        background(255);
+      }
       /*
       for(int i = 0; i < fftr.specSize(); i++){
         // draw the line for frequency band i, scaling it up a bit so we can see it
