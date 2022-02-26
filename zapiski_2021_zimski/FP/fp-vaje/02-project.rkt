@@ -43,7 +43,13 @@
 (define-syntax greater             ; ime makra
   (syntax-rules ()       ; druge ključne besede
     [(greater e1 e2)  ; sintaksa makra
+<<<<<<< Updated upstream
      (if (true? (fri(?leq e1 e2)null)) e2 e1)]))
+=======
+     (let ([v1 (fri e1 null)]
+           [v2 (fri e2 null)])
+     (if (true? (fri(?leq v1 v2)null)) v2 v1))]))
+>>>>>>> Stashed changes
 (define-syntax rev             ; ime makra
   (syntax-rules ()       ; druge ključne besede
     [(rev e)  ; sintaksa makra
@@ -61,6 +67,7 @@
 (define-syntax mapping             ; ime makra
   (syntax-rules ()       ; druge ključne besede
     [(mapping f seq)  ; sintaksa makra
+<<<<<<< Updated upstream
      (letrec ([sq (fri seq null)]
               [mp (lambda(fn lst) (cond
                                      [(empty? lst) (empty)]
@@ -80,6 +87,16 @@
 (define-syntax folding             ; ime makra
   (syntax-rules ()       ; druge ključne besede
     [(folding f init seq)  ; sintaksa makra
+=======
+     (seq)]))
+(define-syntax filtering             ; ime makra
+  (syntax-rules ()       ; druge ključne besede
+    [(filtering f seq)  ; sintaksa makra
+     (seq)]))
+(define-syntax folding             ; ime makra
+  (syntax-rules ()       ; druge ključne besede
+    [(fording f init seq)  ; sintaksa makra
+>>>>>>> Stashed changes
      (seq)]))
 
 (define (fri expression environment)
@@ -180,12 +197,20 @@
                (if (and (false? v1) (false? v2))
                    (false)
                    (true)))]
+<<<<<<< Updated upstream
          [(and (true?(fri (?seq v1) environment)) (true?(fri (?.. v2) environment))
+=======
+         [(and (true?(fri (?.. v1) environment)) (true?(fri (?.. v2) environment))
+>>>>>>> Stashed changes
                (letrec ([app (lambda(e1 e2) (if (empty? e1) e2 (.. (..-e1 e1) (app (..-e2 e1) e2))))])
                  (app v1 v2)))]
          [(and (true?(fri (?empty v1) environment)) (true?(fri (?empty v2) environment)))
           (empty)]
+<<<<<<< Updated upstream
          [(and (true?(fri (?seq v1) environment)) (true?(fri (?empty v2) environment)))
+=======
+         [(and (true?(fri (?.. v1) environment)) (true?(fri (?empty v2) environment)))
+>>>>>>> Stashed changes
           v1]
          [#t (fri (trigger (exception "add: wrong argument type")) environment)]
         ))]
@@ -297,6 +322,7 @@
          [(empty? v1) (false)]
          [#t (fri (trigger (exception "?any: wrong argument type")) environment)]
         ))]
+<<<<<<< Updated upstream
     [(vars? expression)
      (let ([s (vars-s expression)]
            [v1 (vars-e1 expression)]
@@ -353,4 +379,6 @@
              [(proc? izr) (fri (proc-body izr) (append (list(cons(proc-name izr) izr)) environment))]
              [#t (fri (trigger(exception "call: wrong argument type")) environment)]
              ))]
+=======
+>>>>>>> Stashed changes
         ))
