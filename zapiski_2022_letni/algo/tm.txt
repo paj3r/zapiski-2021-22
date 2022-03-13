@@ -1,0 +1,84 @@
+//LOAD AN EXAMPLE TO TRY
+//then load an input and click play
+
+//Syntax:
+
+//-------CONFIGURATION
+name: Sum of first n integers
+init: q0
+accept: qf
+
+
+//-------DELTA FUNCTION:
+//[current_state],[read_symbol]
+//[new_state],[write_symbol],[>|<|-]
+q0,0
+qfi,0,>
+
+qfi,_
+qf,_,-
+
+q0,1
+q1,1,-
+
+q1,1
+q1,X,>
+
+q1,0
+q2,0,<
+
+q2,X
+q2,1,>
+
+q2,0
+q2,0,>
+
+q2,_
+q3,1,<
+
+q2,1
+q2,1,>
+
+q3,1
+q3,1,<
+
+q3,0
+q4,0,<
+
+q4,1
+q4,1,<
+
+q4,X
+q2,1,>
+
+q4,_
+qD,_,>
+
+qD,1
+qc,_,>
+
+qc,1
+q1,X,>
+
+qc,0
+qf1,_,>
+
+qf1,1
+qf1,1,>
+
+qf1,_
+qf,0,>
+
+qD,0
+qf,0,>
+
+
+// < = left
+// > = right
+// - = hold
+// use underscore for blank cells
+
+//States and symbols are case-sensitive
+
+//Load your code and click COMPILE.
+//or load an example (top-right).
