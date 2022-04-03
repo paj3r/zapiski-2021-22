@@ -17,26 +17,38 @@ def reduce_nq_sat(n):
         for j in range(sc, fields, n):
             if i==j or j==0:
                 continue
-            print("-{0} -{1} 0".format(i,j))
-    #todo diags
-    print("================")
+            print("-{0} -{1} 0".format(i, j))
+    #diags
     for k in range(0, n * 2):
-        lst = ""
+        lst = []
         for j in range(0, k + 1):
             i=k-j
             if i<n and j<n:
-                lst+=(str((i+1)+j*n)+" ")
-        print(lst)
+                lst.append(str((i+1)+j*n)+" ")
+        if len(lst)>1:
+            temp=lst[0]
+            for n1 in range(1,len(lst)):
+                print("-{0} -{1} 0".format(temp, lst[n1]))
 
-    print("================")
-    for i in range(n,0,-1):
-        lst = ""
-        for j in range()
-    for (int i = b.length - 1; i > 0; i--) {
-        String temp = "";
-    for (int j = 0, x = i; x <= b.length - 1; j++, x++) {
-    temp = temp+b[x][j];
-    }
-    System.out.println(temp)
-    }
+    for i in range(n-1, 0, -1):
+        lst = []
+        j = 0
+        for x in range(i, n, 1):
+            lst.append(str(x+(j*n)+1) + " ")
+            j += 1
+        if len(lst) > 1:
+            temp = lst[0]
+            for n1 in range(1, len(lst)):
+                print("-{0} -{1} 0".format(temp, lst[n1]))
+    for i in range(0, n, 1):
+        lst = []
+        j=0
+        for y in range(i,n,1):
+            lst.append(str(j + (y * n)+1) + " ")
+            j += 1
+        if len(lst) > 1:
+            temp = lst[0]
+            for n1 in range(1, len(lst)):
+                print("-{0} -{1} 0".format(temp, lst[n1]))
+
 reduce_nq_sat(int(sys.argv[1]))
