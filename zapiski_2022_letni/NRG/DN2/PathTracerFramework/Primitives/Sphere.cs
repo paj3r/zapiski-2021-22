@@ -22,25 +22,38 @@ namespace PathTracer
         /// <returns>t or null if no hit, point on surface</returns>
         public override (double?, SurfaceInteraction) Intersect(Ray ray)
         {
+            //SOURCE: https://github.com/mmp/pbrt-v3/blob/master/src/shapes/sphere.cpp
             Ray r = WorldToObject.Apply(ray);
 
             // TODO: Compute quadratic sphere coefficients
 
             // TODO: Initialize _double_ ray coordinate values
+            double a = r.d.x * r.d.x + r.d.y * r.d.y + r.d.z * r.d.z;
+            double b = 2 * (r.d.x * r.o.x + r.d.y * r.o.y + r.d.z * r.o.z);
+            double c = r.o.x * r.o.x + r.o.y * r.o.y + r.o.z * r.o.z - Radius * Radius;
 
             // TODO: Solve quadratic equation for _t_ values
+            double t0, t1;
+            bool succ;
+            (succ, t0, t1) = Utils.Quadratic(a, b, c);
+            if (!succ)
+                return (null, null);
 
             // TODO: Check quadric shape _t0_ and _t1_ for nearest intersection
+            if (t1<= Renderer.Epsilon) return (null,null);
 
+            double tShapeHit = t0;
+            if (tShapeHit <= Renderer.Epsilon)
+            {
+                tShapeHit = t1;
+            }
             // TODO: Compute sphere hit position and $\phi$
+            var pHit = r.Point(tShapeHit); 
+            var dpdu = new Vector3(-pHit.y, pHit.x, 0);
+            var si = new SurfaceInteraction(pHit, pHit, -r.d, dpdu, this);
 
             // TODO: Return shape hit and surface interaction
-
-            // A dummy return example
-            double dummyHit = 0.0;
-            Vector3 dummyVector = new Vector3(0, 0, 0);
-            SurfaceInteraction dummySurfaceInteraction = new SurfaceInteraction(dummyVector, dummyVector, dummyVector, dummyVector, this);
-            return (dummyHit, dummySurfaceInteraction);
+            return (tShapeHit, ObjectToWorld.Apply(si));
         }
 
         /// <summary>
@@ -50,14 +63,13 @@ namespace PathTracer
         public override (SurfaceInteraction, double) Sample()
         {
             // TODO: Implement Sphere sampling
-
+            Vector3 vec = Samplers.UniformSampleSphere()*Radius;
+            var dpdu = new Vector3(-vec.y, vec.x, 0);
+            var pdf = 1 / Area();
+            var nor = ObjectToWorld.ApplyNormal(vec);
             // TODO: Return surface interaction and pdf
-
-            // A dummy return example
-            double dummyPdf = 1.0;
-            Vector3 dummyVector = new Vector3(0, 0, 0);
-            SurfaceInteraction dummySurfaceInteraction = new SurfaceInteraction(dummyVector, dummyVector, dummyVector, dummyVector, this);
-            return (dummySurfaceInteraction, dummyPdf);
+            return (ObjectToWorld.Apply(new SurfaceInteraction(vec, nor, 
+                Vector3.ZeroVector, dpdu, this)), pdf);
         }
 
         public override double Area() { return 4 * Math.PI * Radius * Radius; }

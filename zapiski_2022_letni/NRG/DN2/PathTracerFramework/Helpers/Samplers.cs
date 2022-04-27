@@ -10,10 +10,15 @@ namespace PathTracer
   {
     public static Vector3 UniformSampleSphere()
     {
-      // TODO: Implement unifrom Sphere sampler
-      
-      // A dummy return
-      return new Vector3(0,0,0);
+        // TODO: Implement unifrom Sphere sampler
+        var r1 = ThreadSafeRandom.NextDouble();
+        var r2 = ThreadSafeRandom.NextDouble();
+        double theta = 2 * Math.PI * r1;
+        double phi = Math.Acos(1 - 2 * r2);
+        double x = Math.Sin(phi) * Math.Cos(theta);
+        double y = Math.Sin(phi) * Math.Sin(theta);
+        double z = Math.Cos(phi);
+        return new Vector3(x, y, z);
     }
 
     /// <summary>
