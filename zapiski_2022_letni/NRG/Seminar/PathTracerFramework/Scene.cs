@@ -119,7 +119,7 @@ namespace PathTracer
             //el.BSDF.Add(new SpecularReflection(Spectrum.ZeroSpectrum.FromRGB(Color.White),0,0));
             //el.BSDF.Add(new SpecularReflection(Spectrum.ZeroSpectrum.FromRGB(Color.White),1,1.5));
             //el.BSDF.Add(new SpecularTransmission(Spectrum.ZeroSpectrum.FromRGB(Color.White), 1, 1.5));
-            el.BSDF.Add(new OrenNayar(Spectrum.ZeroSpectrum.FromRGB(Color.Yellow), 0.3));
+            el.BSDF.Add(new Glass(Spectrum.ZeroSpectrum.FromRGB(Color.Yellow), 0.3, 0.5, 0.5));
             s.Elements.Add(el);
 
             return s;
