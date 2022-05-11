@@ -66,10 +66,10 @@ namespace PathTracer
             else {
                 Random coinflip = new Random();
                 if (coinflip.Next(0, 2) == 0) {
-                    return (r, woL, 0);
+                    return (ft / Utils.AbsCosTheta(wiL), woL, 0);
                 }
                 else {
-                    return (r, wiL, 1);
+                    return (ft / Utils.AbsCosTheta(wiL), wiL, 1);
                 }
             }
 

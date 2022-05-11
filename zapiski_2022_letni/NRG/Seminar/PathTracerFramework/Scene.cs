@@ -105,7 +105,7 @@ namespace PathTracer
             el.BSDF.Add(new Lambertian(Spectrum.ZeroSpectrum.FromRGB(Color.Red)));
             s.Elements.Add(el);
 
-            s.Elements.Add(new DiffuseAreaLight(new Sphere(80, Transform.Translate(278, 548, 280).A(Transform.RotateX(90))), Spectrum.Create(1), 20));
+            s.Elements.Add(new DiffuseAreaLight(new Quad(200, 200, Transform.Translate(278, 548, 280).A(Transform.RotateX(90))), Spectrum.Create(1), 20));
 
 
 

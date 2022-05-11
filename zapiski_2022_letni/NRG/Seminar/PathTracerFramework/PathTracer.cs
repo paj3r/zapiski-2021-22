@@ -49,7 +49,7 @@ namespace PathTracer
                 Spectrum temp = Light.UniformSampleOneLight(isect, s);
                 //if (temp.c.Average() < f.c.Average())
                 //  break;
-                L.AddTo(beta * temp);
+                //L.AddTo(beta * temp);
                 nBounces++;
             }
             /* Implement */
