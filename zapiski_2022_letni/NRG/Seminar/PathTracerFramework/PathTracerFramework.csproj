@@ -69,6 +69,7 @@
     <Compile Include="Helpers\Samplers.cs" />
     <Compile Include="MaterialsLights\OrenNayar.cs" />
     <Compile Include="MaterialsLights\Glass.cs" />
+    <Compile Include="MaterialsLights\SpecularTransmission.cs" />
     <Compile Include="MaterialsLights\SpecularReflection.cs" />
     <Compile Include="MaterialsLights\Lambertian.cs" />
     <Compile Include="MaterialsLights\BxDF.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Primitives\Quad.cs" />
     <Compile Include="Primitives\Disk.cs" />
     <Compile Include="MaterialsLights\Light.cs" />
+    <Compile Include="Primitives\SampledSpectrum.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="Primitives\Shape.cs" />

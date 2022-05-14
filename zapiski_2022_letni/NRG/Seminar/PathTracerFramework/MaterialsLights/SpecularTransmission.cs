@@ -10,7 +10,7 @@ namespace PathTracer
     /// <summary>
     /// Example implementation of a specular reflection material
     /// </summary>
-    public class Glass : BxDF
+    public class SpecularTransmission : BxDF
     {
         /// <summary>
         /// material color
@@ -20,15 +20,16 @@ namespace PathTracer
         /// Fresnel parameters
         /// </summary>
         private FresnelDielectric fresnel;
-        private Spectrum t;
+        public enum TransportMode { Radiance, Imporatance }
+        private TransportMode mode;
+
 
         public override bool IsSpecular => true;
 
-        public Glass(Spectrum r, double fresnel1, double fresnel2, Spectrum t)
+        public SpecularTransmission(Spectrum r, double fresnel1, double fresnel2)
         {
             this.r = r;
             fresnel = new FresnelDielectric(fresnel1, fresnel2);
-            this.t = t;
         }
 
         /// <summary>
@@ -49,36 +50,18 @@ namespace PathTracer
         /// <returns>f as fresnel corrected color, wi as perfect reflection and 1 as pdf</returns>
         public override (Spectrum, Vector3, double) Sample_f(Vector3 woL)
         {
-            // perfect specular reflection
+            // figure out which eta transmits and which incides
+            bool entering = Utils.CosTheta(woL) > 0;
             double eta = Utils.CosTheta(woL);
-            
-            Vector3 wiL = new Vector3(-eta * woL.x,-eta * woL.y, Math.Sign(woL.z)*(1- eta*eta*(1-woL.z*woL.z)));
-            Spectrum fr = r * fresnel.Evaluate(Utils.CosTheta(wiL));
-            if (woL.z > 0)
-                return (fr / Utils.AbsCosTheta(wiL), wiL, 1);
-            else {
-                Random coinflip = new Random();
-                if (coinflip.Next(0, 2) == 0) {
-                    Vector3 wiLt = new Vector3(-woL.x, -woL.y, woL.z);
-                    Spectrum ft = fresnel.Evaluate(Utils.CosTheta(wiL));
-                    return (ft / Utils.AbsCosTheta(wiLt), wiLt, 1);
-                    //return (fr / Utils.AbsCosTheta(wiL), woL, 0);
-                }
-                else {
-                    bool entering = Utils.CosTheta(woL) > 0;
-                    //FresnelDielectric temp = fresnel.Evaluate(Utils.CosTheta(wiL));
-                    // compute ray direction for specular transmission
-                    Vector3 vec = Refract(woL, Vector3Extensions.Faceforward(new Vector3(0, 0, 1), woL), (float)eta, wiL);
-                    if (vec == Vector3.ZeroVector)
-                        return (Spectrum.ZeroSpectrum, wiL, 0);
-                    Spectrum ft = r * (Spectrum.ZeroSpectrum.FromRGB(Color.White));
-                    return (ft / Utils.AbsCosTheta(vec), vec, 0);
-                }
-            }
-
-
+            Vector3 wiL = new Vector3(-eta * woL.x, -eta * woL.y, Math.Sign(woL.z) * (1 - eta * eta * (1 - woL.z * woL.z)));
+            //FresnelDielectric temp = fresnel.Evaluate(Utils.CosTheta(wiL));
+            // compute ray direction for specular transmission
+            Vector3 vec = Refract(woL, Vector3Extensions.Faceforward(new Vector3(0, 0, 1), woL), (float)eta, wiL);
+            if (vec==Vector3.ZeroVector)
+                return (Spectrum.ZeroSpectrum, wiL, 0);
+            Spectrum ft = r * (Spectrum.ZeroSpectrum.FromRGB(Color.White));
+            return (ft / Utils.AbsCosTheta(vec), vec, 1);
         }
-
 
         /// <summary>
         /// Probability of any pair is 0

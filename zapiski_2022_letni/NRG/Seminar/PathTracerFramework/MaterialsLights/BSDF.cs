@@ -15,6 +15,16 @@ namespace PathTracer
     {
         private List<BxDF> bxdfs = new List<BxDF>(5);
 
+        public Vector3 Refract(Vector3 wi, Vector3 n, float eta, Vector3 wt)
+        {
+            double cosThetaI = Vector3.Dot(n, wi);
+            double sin2ThetaI = Math.Max(0, 1 - (cosThetaI * cosThetaI));
+            double sin2ThetaT = eta * eta * sin2ThetaI;
+            if (sin2ThetaT >= 1) return Vector3.ZeroVector;
+            double cosThetaT = Math.Sqrt(1 - sin2ThetaT);
+            return eta * (-wi) + (eta * cosThetaI - cosThetaT) * n;
+        }
+
         /// <summary>
         /// True, if BSDF is specular
         /// </summary>

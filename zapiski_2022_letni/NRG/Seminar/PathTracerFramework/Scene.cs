@@ -92,7 +92,7 @@ namespace PathTracer
 
             // back
             el = new Quad(556.0, 548.8, Transform.Translate(556.0 / 2, 548.8 / 2, 559.2).A(Transform.RotateX(180)));
-            el.BSDF.Add(new Lambertian(Spectrum.ZeroSpectrum.FromRGB(Color.White)));
+            el.BSDF.Add(new Lambertian(Spectrum.ZeroSpectrum.FromRGB(Color.Yellow)));
             s.Elements.Add(el);
 
             //right
@@ -114,12 +114,12 @@ namespace PathTracer
             s.Elements.Add(el);
 
             //s.Elements.Add(new DiffuseAreaLight( new Sphere(100, Transform.Translate(400, 100, 230)), Spectrum.Create(1), 20));
-            el = new Sphere(100, Transform.Translate(400, 100, 420));
+            el = new Sphere(100, Transform.Translate(230, 100, 100));
             //el.BSDF.Add(new MicrofacetReflection(Spectrum.ZeroSpectrum.FromRGB(Color.White), 1.5, 1, 0.05));
             //el.BSDF.Add(new SpecularReflection(Spectrum.ZeroSpectrum.FromRGB(Color.White),0,0));
             //el.BSDF.Add(new SpecularReflection(Spectrum.ZeroSpectrum.FromRGB(Color.White),1,1.5));
-            //el.BSDF.Add(new SpecularTransmission(Spectrum.ZeroSpectrum.FromRGB(Color.White), 1, 1.5));
-            el.BSDF.Add(new Glass(Spectrum.ZeroSpectrum.FromRGB(Color.Yellow), 0.3, 0.5, 0.5));
+            //el.BSDF.Add(new SpecularTransmission(Spectrum.ZeroSpectrum.FromRGB(Color.White), 0, 0));
+            el.BSDF.Add(new Glass(Spectrum.ZeroSpectrum.FromRGB(Color.White), 0,0, Spectrum.ZeroSpectrum.FromRGB(Color.White)));
             s.Elements.Add(el);
 
             return s;

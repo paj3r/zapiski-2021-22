@@ -104,5 +104,11 @@ namespace PathTracer
             }
             return this;
         }
+        public static Spectrum CreateSpectral(double cValue)
+        {
+            return new SpectrumRGB(cValue);
+        }
+
+
     }
 }
