@@ -52,16 +52,16 @@ namespace PathTracer
             // perfect specular reflection
             double eta = Utils.CosTheta(woL);
             
-            Vector3 wiL = new Vector3(-eta * woL.x,-eta * woL.y, Math.Sign(woL.z)*(1- eta*eta*(1-woL.z*woL.z)));
+            Vector3 wiL = new Vector3(-eta * woL.x,-eta * woL.y, Math.Sign(-woL.z)*(1- eta*eta*(1-woL.z*woL.z)));
             Spectrum fr = r * fresnel.Evaluate(Utils.CosTheta(wiL));
-            if (woL.z > 0)
+            if (Utils.SameHemisphere(woL, wiL))
                 return (fr / Utils.AbsCosTheta(wiL), wiL, 1);
             else {
                 Random coinflip = new Random();
                 if (coinflip.Next(0, 2) == 0) {
                     Vector3 wiLt = new Vector3(-woL.x, -woL.y, woL.z);
                     Spectrum ft = fresnel.Evaluate(Utils.CosTheta(wiL));
-                    return (ft / Utils.AbsCosTheta(wiLt), wiLt, 1);
+                    return (ft / Utils.AbsCosTheta(wiLt), wiLt, 0);
                     //return (fr / Utils.AbsCosTheta(wiL), woL, 0);
                 }
                 else {
@@ -70,9 +70,9 @@ namespace PathTracer
                     // compute ray direction for specular transmission
                     Vector3 vec = Refract(woL, Vector3Extensions.Faceforward(new Vector3(0, 0, 1), woL), (float)eta, wiL);
                     if (vec == Vector3.ZeroVector)
-                        return (Spectrum.ZeroSpectrum, wiL, 0);
+                        return (Spectrum.ZeroSpectrum, wiL, 1);
                     Spectrum ft = r * (Spectrum.ZeroSpectrum.FromRGB(Color.White));
-                    return (ft / Utils.AbsCosTheta(vec), vec, 0);
+                    return (ft / Utils.AbsCosTheta(vec), vec, 1);
                 }
             }
 
