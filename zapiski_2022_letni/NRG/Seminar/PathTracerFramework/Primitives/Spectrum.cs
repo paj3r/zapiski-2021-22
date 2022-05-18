@@ -15,6 +15,7 @@ namespace PathTracer
     {
         public Vector<double> c;
         public int nSamples;
+        public enum SpectrumType { Reflectance, Illuminant };
 
         public static Spectrum ZeroSpectrum => Spectrum.Create(0);
 
@@ -30,6 +31,7 @@ namespace PathTracer
         /// </summary>
         /// <param name="cValue"></param>
         /// <returns></returns>
+        /// 
         public static Spectrum Create(double cValue)
         {
             return new SpectrumRGB(cValue);
@@ -105,7 +107,7 @@ namespace PathTracer
             return (1 - t) * s1 + t * s2;
         }
 
-        public double AverageSpectrumSamples(Vector<double> lambda, Vector<double> vals,
+        public double AverageSpectrumSamples(double[] lambda, double[] vals,
         int n, double lambdaStart, double lambdaEnd)
         {
             if (lambdaEnd <= lambda[0]) return vals[0];
@@ -137,12 +139,14 @@ namespace PathTracer
             return c.Max();
         }
         public abstract double[] ToRGB();
-        public abstract Spectrum FromRGB(Color c);
+        public abstract Spectrum FromRGB(Color c, SpectrumType type);
+
+        public abstract Spectrum FromXYZ(Vector<double> rgb, SpectrumType type);
 
         public abstract Spectrum FromSampled(Vector<double> lambda, Vector<double> v, int n);
 
 
-        public Spectrum Clamp()
+    public Spectrum Clamp()
         {
             for (int i = 0; i < c.Count; i++)
             {
@@ -151,10 +155,66 @@ namespace PathTracer
             }
             return this;
         }
-        public static Spectrum CreateSpectral(double cValue)
+        public static SampledSpectrum CreateSpectral(double cValue)
         {
             return new SampledSpectrum(cValue);
         }
+        public static SampledSpectrum CreateSpectral(Vector<double> v)
+        {
+            var s = CreateSpectral(0);
+            s.c = v;
+            return s;
+        }
+
+        public static Spectrum createSpectralUni() {
+            var s = CreateSpectral(0);
+            var ou = s.createUniorm();
+            return ou;
+        }
+
+        public static Spectrum createSpectralMag()
+        {
+            var s = CreateSpectral(0);
+            var ou = s.createMagenta();
+            return ou;
+        }
+
+        public Vector<double> XYZToRGB(Vector<double> xyz) {
+            Vector<double> rgb = Vector<double>.Build.Dense(3);
+            rgb[0] =  3.240479*xyz[0] - 1.537150*xyz[1] - 0.498535*xyz[2];
+            rgb[1] = -0.969256*xyz[0] + 1.875991*xyz[1] + 0.041556*xyz[2];
+            rgb[2] =  0.055648*xyz[0] - 0.204043*xyz[1] + 1.057311*xyz[2];
+            for (int i = 0; i < 3; i++)
+            {
+                if (rgb[i] > .0031308f)
+                {
+                    rgb[i] = (1.055f * (float)Math.Pow(rgb[i], (1.0f / 2.4f))) - .055f;
+                }
+                else
+                {
+                    rgb[i] = rgb[i] * 12.92f;
+                }
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                if (rgb[i] > 1)
+                {
+                    rgb = rgb / rgb[i];
+                }
+                if(rgb[i] < 0)
+                    rgb[i] = 0;
+            }  
+            return rgb;
+        }
+
+        public Vector<double> RGBToXYZ(Vector<double> rgb) {
+            Vector<double> xyz = Vector<double>.Build.Dense(3);
+            xyz[0] = 0.412453f*rgb[0] + 0.357580f*rgb[1] + 0.180423f*rgb[2];
+            xyz[1] = 0.212671f*rgb[0] + 0.715160f*rgb[1] + 0.072169f*rgb[2];
+            xyz[2] = 0.019334f*rgb[0] + 0.119193f*rgb[1] + 0.950227f*rgb[2];
+            return xyz;
+        }
+
 
 
     }

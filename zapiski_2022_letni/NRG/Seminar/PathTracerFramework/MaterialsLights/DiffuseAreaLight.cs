@@ -59,7 +59,7 @@ namespace PathTracer
 
             if (pdf == 0 || (pShape.Point - source.Point).LengthSquared() < Renderer.Epsilon)
             {
-                return (Spectrum.ZeroSpectrum, Vector3.ZeroVector, 0, Vector3.ZeroVector);
+                return (Spectrum.CreateSpectral(0), Vector3.ZeroVector, 0, Vector3.ZeroVector);
             }
 
             var wi = (pShape.Point - source.Point).Normalize();
@@ -75,7 +75,7 @@ namespace PathTracer
         /// <returns></returns>
         public override Spectrum L(SurfaceInteraction intr, Vector3 w)
         {
-            return (Vector3.Dot(intr.Normal, w) > 0) ? Lemit : Spectrum.ZeroSpectrum;
+            return (Vector3.Dot(intr.Normal, w) > 0) ? Lemit : Spectrum.CreateSpectral(0);
         }
 
         /// <summary>

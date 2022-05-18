@@ -48,8 +48,8 @@ namespace PathTracer
         {
             // perfect specular reflection
             Vector3 wiL = new Vector3(-woL.x, -woL.y, woL.z);
-            Spectrum ft = r * fresnel.Evaluate(Utils.CosTheta(wiL));
-            return (ft / Utils.AbsCosTheta(wiL), wiL, 1);
+            //Spectrum ft = r * fresnel.Evaluate(Utils.CosTheta(wiL));
+            return (r / Utils.AbsCosTheta(wiL), wiL, 1);
         }
 
         /// <summary>
