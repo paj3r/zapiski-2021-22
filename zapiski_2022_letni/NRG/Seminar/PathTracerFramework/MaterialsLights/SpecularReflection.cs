@@ -36,7 +36,7 @@ namespace PathTracer
         /// <returns></returns>
         public override Spectrum f(Vector3 wo, Vector3 wi)
         {
-            return Spectrum.ZeroSpectrum;
+            return Spectrum.CreateSpectral(0);
         }
 
         /// <summary>

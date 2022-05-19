@@ -18,7 +18,7 @@ namespace PathTracer
         public Spectrum Li(Ray r, Scene s)
         {
             var L = Spectrum.CreateSpectral(0);
-            var beta = Spectrum.createSpectralUni();
+            var beta = Spectrum.CreateSpectral(1);
             var nBounces = 0;
             while (nBounces < 20) { 
                 (double? dist, SurfaceInteraction isect) = s.Intersect(r);
@@ -43,13 +43,13 @@ namespace PathTracer
                     }
                     beta = beta / (1 - q);
                 }
-                beta = (beta * f * Vector3.AbsDot(isect.Normal, wi)) / pdf;
+                beta = (SampledSpectrum)((beta * f * Vector3.AbsDot(isect.Normal, wi)) / pdf);
                 r = isect.SpawnRay(wi);
                 //importance sampling
-                //Spectrum temp = Light.UniformSampleOneLight(isect, s);
+                Spectrum temp = Light.UniformSampleOneLight(isect, s);
                 //if (temp.c.Average() < f.c.Average())
                 //  break;
-                //L.AddTo(beta * temp);
+                L.AddTo(beta * temp);
                 nBounces++;
             }
             /* Implement */

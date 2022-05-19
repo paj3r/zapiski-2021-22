@@ -26,7 +26,7 @@ namespace PathTracer
             if (etaI == 0 && etaT == 0)
             {
                 // special case when we don't want Fresnel, e.g. always want perfect reflection (mirror)
-                return Spectrum.Create(1);
+                return Spectrum.CreateSpectral(1);
             }
 
             cosThetaI = cosThetaI.Clamp(-1, 1);
@@ -45,13 +45,13 @@ namespace PathTracer
             var sinThetaT = etaI / etaT * sinThetaI;
 
             // Handle total public reflection
-            if (sinThetaT >= 1) return Spectrum.Create(1);
+            if (sinThetaT >= 1) return Spectrum.CreateSpectral(1);
             var cosThetaT = Math.Sqrt(Math.Max(0, 1 - sinThetaT * sinThetaT));
             var Rparl = ((etaT * cosThetaI) - (etaI * cosThetaT)) /
                           ((etaT * cosThetaI) + (etaI * cosThetaT));
             var Rperp = ((etaI * cosThetaI) - (etaT * cosThetaT)) /
                           ((etaI * cosThetaI) + (etaT * cosThetaT));
-            return Spectrum.Create((Rparl * Rparl + Rperp * Rperp) / 2);
+            return Spectrum.CreateSpectral((Rparl * Rparl + Rperp * Rperp) / 2);
 
         }
 

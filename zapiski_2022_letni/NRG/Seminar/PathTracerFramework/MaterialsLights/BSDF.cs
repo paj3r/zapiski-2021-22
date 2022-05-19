@@ -53,7 +53,7 @@ namespace PathTracer
 
             var wi = WorldToLocal(wiW, si);
             var wo = WorldToLocal(woW, si);
-            var f = Spectrum.ZeroSpectrum;
+            var f = Spectrum.CreateSpectral(0);
             if (Math.Abs(wo.z) < Renderer.Epsilon)
                 return f;
 
@@ -75,7 +75,7 @@ namespace PathTracer
 
             var woL = WorldToLocal(woW, si);
             if (Math.Abs(woL.z) < Renderer.Epsilon)
-                return (Spectrum.ZeroSpectrum, Vector3.ZeroVector, 0, false);
+                return (Spectrum.CreateSpectral(0), Vector3.ZeroVector, 0, false);
 
             // randomly choose bxdf 
             int comp = (int)Math.Floor(ThreadSafeRandom.NextDouble() * bxdfs.Count);
@@ -86,7 +86,7 @@ namespace PathTracer
 
             if (pdf < Renderer.Epsilon)
             {
-                return (Spectrum.ZeroSpectrum, Vector3.ZeroVector, 0, false);
+                return (Spectrum.CreateSpectral(0), Vector3.ZeroVector, 0, false);
             }
 
             // Compute overall PDF & f with all BxDFs

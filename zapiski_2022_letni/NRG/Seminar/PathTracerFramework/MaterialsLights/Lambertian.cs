@@ -26,7 +26,7 @@ namespace PathTracer
         public override Spectrum f(Vector3 wo, Vector3 wi)
         {
             if (!Utils.SameHemisphere(wo, wi))
-                return Spectrum.ZeroSpectrum;
+                return Spectrum.CreateSpectral(0);
             return kd * Utils.PiInv;
         }
 

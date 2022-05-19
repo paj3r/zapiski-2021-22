@@ -44,7 +44,7 @@ namespace PathTracer
                 beta = wo.Clone();
             }
             if (!Utils.SameHemisphere(wo, wi))
-                return Spectrum.ZeroSpectrum;
+                return Spectrum.CreateSpectral(0);
             return (kd * Utils.PiInv) * (A + B * Math.Max(0, Utils.CosPhi(wi - wo))
                 * Utils.SinTheta(alpha) * Utils.TanTheta(beta));
         }

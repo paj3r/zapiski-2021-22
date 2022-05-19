@@ -24,7 +24,7 @@ namespace PathTracer
             // Randomly choose a single light to sample, _light_
             int nLights = s.Lights.Count;
             if (nLights == 0)
-                return Spectrum.ZeroSpectrum;
+                return Spectrum.CreateSpectral(0);
 
             int lightNum = (int)Math.Floor(ThreadSafeRandom.NextDouble() * nLights);
             double lightPdf = 1 / (double)nLights;
@@ -43,7 +43,7 @@ namespace PathTracer
 
             if (!s.Unoccluded(it.Point, lightPt))
             {
-                return Spectrum.ZeroSpectrum;
+                return Spectrum.CreateSpectral(0);
             }
 
             return f * Li / lightPdf;

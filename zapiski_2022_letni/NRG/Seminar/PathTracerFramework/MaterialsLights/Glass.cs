@@ -39,7 +39,7 @@ namespace PathTracer
         /// <returns></returns>
         public override Spectrum f(Vector3 wo, Vector3 wi)
         {
-            return Spectrum.ZeroSpectrum;
+            return Spectrum.CreateSpectral(0);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace PathTracer
                     Vector3 vec = Refract(woL, Vector3Extensions.Faceforward(new Vector3(0, 0, 1), woL), (float)eta, wiL);
                     if (vec == Vector3.ZeroVector)
                         return (Spectrum.ZeroSpectrum, wiL, 1);
-                    Spectrum ft = r * (Spectrum.ZeroSpectrum.FromRGB(Color.White, Spectrum.SpectrumType.Reflectance));
+                    Spectrum ft = r * (Spectrum.CreateSpectral(0).FromRGB(Color.White, Spectrum.SpectrumType.Reflectance));
                     return (ft / Utils.AbsCosTheta(vec), vec, 1);
                 }
             }
