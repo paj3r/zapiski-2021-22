@@ -52,15 +52,15 @@ namespace PathTracer
         {
             // figure out which eta transmits and which incides
             bool entering = Utils.CosTheta(woL) > 0;
-            double eta = Utils.CosTheta(woL);
-            Vector3 wiL = new Vector3(-eta * woL.x, -eta * woL.y, Math.Sign(woL.z) * (1 - eta * eta * (1 - woL.z * woL.z)));
+            double eta = 1.2;
+            Vector3 wiL = Samplers.CosineSampleHemisphere();
             //FresnelDielectric temp = fresnel.Evaluate(Utils.CosTheta(wiL));
             // compute ray direction for specular transmission
             Vector3 vec = Refract(woL, Vector3Extensions.Faceforward(new Vector3(0, 0, 1), woL), (float)eta, wiL);
             if (vec==Vector3.ZeroVector)
-                return (Spectrum.ZeroSpectrum, wiL, 0);
-            //Spectrum ft = r * (Spectrum.ZeroSpectrum.FromRGB(Color.White, Spectrum.SpectrumType.Reflectance));
-            return (r / Utils.AbsCosTheta(vec), vec, 1);
+                return (Spectrum.CreateSpectral(0), wiL, 0);
+            Spectrum ft = r * (Spectrum.createSpectralUni());
+            return (ft / Utils.AbsCosTheta(vec), vec, 1);
         }
 
         /// <summary>

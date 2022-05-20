@@ -36,7 +36,7 @@ namespace PathTracer
         {
             if (Obj is Light)
                 return (Obj as Light).L(this, w);
-            return Spectrum.ZeroSpectrum;
+            return Spectrum.CreateSpectral(0);
         }
 
         /// <summary>

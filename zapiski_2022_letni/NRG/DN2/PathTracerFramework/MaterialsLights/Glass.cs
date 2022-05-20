@@ -1,5 +1,4 @@
-﻿using MathNet.Numerics.LinearAlgebra;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,7 +38,7 @@ namespace PathTracer
         /// <returns></returns>
         public override Spectrum f(Vector3 wo, Vector3 wi)
         {
-            return Spectrum.CreateSpectral(0);
+            return Spectrum.ZeroSpectrum;
         }
 
         /// <summary>
@@ -50,7 +49,7 @@ namespace PathTracer
         public override (Spectrum, Vector3, double) Sample_f(Vector3 woL)
         {
             // perfect specular reflection
-            double eta = 1.62;
+            double eta = 1.2;
 
             //Vector3 wiL = new Vector3(-eta * woL.x,-eta * woL.y, Math.Sign(-woL.z)*(1- eta*eta*(1-woL.z*woL.z)));
             Vector3 wiL = Samplers.UniformSampleSphere();
@@ -59,7 +58,7 @@ namespace PathTracer
                 return (fr / Utils.AbsCosTheta(wiL), wiL, 1);
             else {
                 Random coinflip = new Random();
-                if (coinflip.Next(0, 2) == 0) {
+                if (coinflip.Next(0, 2) == 0 && false) {
                     Vector3 wiLt = new Vector3(-woL.x, -woL.y, woL.z);
                     Spectrum ft = fresnel.Evaluate(Utils.CosTheta(wiL));
                     return (ft / Utils.AbsCosTheta(wiLt), wiLt, 0);
@@ -69,14 +68,10 @@ namespace PathTracer
                     bool entering = Utils.CosTheta(woL) > 0;
                     //FresnelDielectric temp = fresnel.Evaluate(Utils.CosTheta(wiL));
                     // compute ray direction for specular transmission
-                    int ix = coinflip.Next(0, SampledSpectrum.nSpectralSamples);
-                    double step = 0.02/SampledSpectrum.nSpectralSamples;
-                    Vector<double> newcol = Vector<double>.Build.Dense(SampledSpectrum.nSpectralSamples);
-                    newcol[ix] = r.c[ix];
-                    Vector3 vec = Refract(woL, Vector3Extensions.Faceforward(new Vector3(0, 0, 1), woL), (float)(eta-step), wiL);
+                    Vector3 vec = Refract(woL, Vector3Extensions.Faceforward(new Vector3(0, 0, 1), woL), (float)eta, wiL);
                     if (vec == Vector3.ZeroVector)
                         return (Spectrum.ZeroSpectrum, wiL, 1);
-                    Spectrum ft = Spectrum.CreateSpectral(newcol) * (Spectrum.CreateSpectral(0).FromRGB(Color.White, Spectrum.SpectrumType.Reflectance));
+                    Spectrum ft = r * (Spectrum.ZeroSpectrum.FromRGB(Color.White));
                     return (ft / Utils.AbsCosTheta(vec), vec, 1);
                 }
             }
