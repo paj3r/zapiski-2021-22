@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,9 +19,9 @@ namespace PathTracer
         public Spectrum Li(Ray r, Scene s)
         {
             var L = Spectrum.CreateSpectral(0);
-            var beta = Spectrum.CreateSpectral(1);
+            var beta = Spectrum.createSpectralUni();
             var nBounces = 0;
-            while (nBounces < 20) { 
+            while (nBounces < 5) { 
                 (double? dist, SurfaceInteraction isect) = s.Intersect(r);
                 if (dist == null || isect == null)
                 {
@@ -43,7 +44,7 @@ namespace PathTracer
                     }
                     beta = beta / (1 - q);
                 }
-                beta = (SampledSpectrum)((beta * f * Vector3.AbsDot(isect.Normal, wi)) / pdf);
+                beta = (SampledSpectrum)(((beta * f) * Vector3.AbsDot(isect.Normal, wi)) / pdf);
                 r = isect.SpawnRay(wi);
                 //importance sampling
                 Spectrum temp = Light.UniformSampleOneLight(isect, s);

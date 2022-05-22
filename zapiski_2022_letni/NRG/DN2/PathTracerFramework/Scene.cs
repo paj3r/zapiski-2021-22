@@ -92,7 +92,7 @@ namespace PathTracer
 
             // back
             el = new Quad(556.0, 548.8, Transform.Translate(556.0 / 2, 548.8 / 2, 559.2).A(Transform.RotateX(180)));
-            el.BSDF.Add(new Lambertian(Spectrum.ZeroSpectrum.FromRGB(Color.White)));
+            el.BSDF.Add(new SpecularReflection(Spectrum.ZeroSpectrum.FromRGB(Color.White), 1, 1.5));
             s.Elements.Add(el);
 
             //right
@@ -105,7 +105,7 @@ namespace PathTracer
             el.BSDF.Add(new Lambertian(Spectrum.ZeroSpectrum.FromRGB(Color.Red)));
             s.Elements.Add(el);
 
-            s.Elements.Add(new DiffuseAreaLight(new Quad(200,200, Transform.Translate(278, 548, 280).A(Transform.RotateX(90))), Spectrum.Create(1), 10));
+            s.Elements.Add(new Spot(new Quad(30,30, Transform.Translate(278, 548, 280).A(Transform.RotateX(90))), Spectrum.Create(1),10,100, 200));
 
 
 

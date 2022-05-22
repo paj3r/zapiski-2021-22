@@ -179,6 +179,13 @@ namespace PathTracer
             return ou;
         }
 
+        public static Spectrum createSpectralCIE()
+        {
+            var s = CreateSpectral(0);
+            var ou = s.CreateCIEstdD();
+            return ou;
+        }
+
         public Vector<double> XYZToRGB(Vector<double> xyz) {
             Vector<double> rgb = Vector<double>.Build.Dense(3);
             rgb[0] =  3.240479*xyz[0] - 1.537150*xyz[1] - 0.498535*xyz[2];

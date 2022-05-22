@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MaterialsLights\BSDF.cs" />
+    <Compile Include="MaterialsLights\Spot.cs" />
     <Compile Include="MaterialsLights\FresnelDielectric.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>

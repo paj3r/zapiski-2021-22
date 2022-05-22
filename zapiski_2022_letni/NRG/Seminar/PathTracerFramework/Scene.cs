@@ -82,12 +82,12 @@ namespace PathTracer
             //SampledSpectrum.init();
             var t = Spectrum.CreateSpectral(0).FromRGB(Color.White, Spectrum.SpectrumType.Illuminant).ToRGB();
             Color c = Color.FromArgb((int)(t[0] * 255), (int)(t[1] * 255), (int)(t[2] * 255));
-            var t2 = Spectrum.CreateSpectral(0).FromRGB(Color.Magenta, Spectrum.SpectrumType.Reflectance).ToRGB();
+            var t2 = Spectrum.CreateSpectral(0).FromRGB(Color.Blue, Spectrum.SpectrumType.Reflectance).ToRGB();
             Color c2 = Color.FromArgb((int)(t2[0] * 255), (int)(t2[1] * 255), (int)(t2[2] * 255));
 
             // floor
             el = new Quad(556.0, 559.2, Transform.Translate(556.0 / 2, 0, 559.2 / 2).A(Transform.RotateX(-90)));
-            el.BSDF.Add(new Lambertian(Spectrum.createSpectralUni()));
+            el.BSDF.Add(new Lambertian(Spectrum.CreateSpectral(0).FromRGB(c, Spectrum.SpectrumType.Reflectance)));
             s.Elements.Add(el);
 
             // celing
@@ -97,11 +97,12 @@ namespace PathTracer
             s.Elements.Add(el);
 
             // back
-            t = Spectrum.CreateSpectral(0).FromRGB(Color.Yellow, Spectrum.SpectrumType.Reflectance).ToRGB();
+            t = Spectrum.CreateSpectral(0).FromRGB(Color.White, Spectrum.SpectrumType.Reflectance).ToRGB();
             c = Color.FromArgb((int)(t[0] * 255), (int)(t[1] * 255), (int)(t[2] * 255));
             el = new Quad(556.0, 548.8, Transform.Translate(556.0 / 2, 548.8 / 2, 559.2).A(Transform.RotateX(180)));
             //el.BSDF.Add(new Lambertian(Spectrum.ZeroSpectrum.FromRGB(Color.Yellow, Spectrum.SpectrumType.Reflectance)));
             el.BSDF.Add(new Lambertian(Spectrum.CreateSpectral(0).FromRGB(c, Spectrum.SpectrumType.Reflectance)));
+            //el.BSDF.Add(new SpecularReflection(Spectrum.CreateSpectral(0).FromRGB(Color.White, Spectrum.SpectrumType.Reflectance), 1, 1.5));
             //el.BSDF.Add(new Lambertian(Spectrum.createSpectralUni()));
             s.Elements.Add(el);
 
@@ -123,24 +124,28 @@ namespace PathTracer
             //el.BSDF.Add(new Lambertian(Spectrum.createSpectralUni()));
             s.Elements.Add(el);
 
+            t = Spectrum.CreateSpectral(0).FromRGB(Color.White, Spectrum.SpectrumType.Illuminant).ToRGB();
+            c = Color.FromArgb((int)(t[0] * 255), (int)(t[1] * 255), (int)(t[2] * 255));
+            s.Elements.Add(new DiffuseAreaLight(new Quad(20, 20, Transform.Translate(278, 548, 280).A(Transform.RotateX(90))), Spectrum.createSpectralCIE(), 15));
+            //s.Elements.Add(new Spot(new Quad(30, 30, Transform.Translate(278, 548, 280).A(Transform.RotateX(90))),Spectrum.createSpectralCIE(), 1,100, 100));
 
-            s.Elements.Add(new DiffuseAreaLight(new Quad(200, 200, Transform.Translate(278, 548, 280).A(Transform.RotateX(90))), Spectrum.createSpectralUni(), 20));
 
-
-            el = new Sphere(100, Transform.Translate(300, 200, 100).A(Transform.RotateY(-30)));
+            el = new Sphere(100, Transform.Translate(220, 200, 280).A(Transform.RotateY(-30)));
             //el = new Sphere(100, Transform.Translate(150, 100, 420));
             //el.BSDF.Add(new OrenNayar(Spectrum.createSpectralMag(),0));
-            el.BSDF.Add(new Glass(Spectrum.createSpectralUni(), 0, 0));
+            //el.BSDF.Add(new Glass(Spectrum.CreateSpectral(0).FromRGB(c, Spectrum.SpectrumType.Reflectance), 0, 0));
+            el.BSDF.Add(new Glass(Spectrum.CreateSpectral(0).FromRGB(c, Spectrum.SpectrumType.Reflectance), 0, 0));
             s.Elements.Add(el);
 
             //s.Elements.Add(new DiffuseAreaLight( new Sphere(100, Transform.Translate(400, 100, 230)), Spectrum.Create(1), 20));
-            //el = new Sphere(100, Transform.Translate(300, 200, 100).A(Transform.RotateY(-30)));
+            el = new Sphere(100, Transform.Translate(300, 100, 400).A(Transform.RotateY(-30)));
             //el.BSDF.Add(new MicrofacetReflection(Spectrum.ZeroSpectrum.FromRGB(Color.White), 1.5, 1, 0.05));
             //el.BSDF.Add(new SpecularReflection(Spectrum.ZeroSpectrum.FromRGB(Color.White),0,0));
-            //el.BSDF.Add(new SpecularReflection(Spectrum.ZeroSpectrum.FromRGB(Color.White),1,1.5));
+            //el.BSDF.Add(new SpecularReflection(Spectrum.CreateSpectral(0).FromRGB(Color.White, Spectrum.SpectrumType.Reflectance),1,1.5));
+            el.BSDF.Add(new Lambertian(Spectrum.CreateSpectral(0).FromRGB(c2, Spectrum.SpectrumType.Reflectance)));
             //el.BSDF.Add(new SpecularTransmission(Spectrum.ZeroSpectrum.FromRGB(Color.White), 0, 0));
             //el.BSDF.Add(new Glass(Spectrum.ZeroSpectrum.FromRGB(Color.White, Spectrum.SpectrumType.Reflectance), 0,0, Spectrum.ZeroSpectrum.FromRGB(Color.White, Spectrum.SpectrumType.Reflectance)));
-            //s.Elements.Add(el);
+            s.Elements.Add(el);
 
             return s;
 

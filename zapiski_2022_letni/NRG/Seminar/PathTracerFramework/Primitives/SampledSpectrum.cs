@@ -27,6 +27,7 @@ namespace PathTracer
         static SampledSpectrum rgbIllum2SpectBlue;
         public static double CIE_Y_integral = 106.856895;
         static int nRGB2SpectSamples = 32;
+        double[] CIEstdD = { 82.754898, 87.120399, 91.486000, 92.458900, 93.431801, 90.056999, 86.682297, 95.773598, 104.864998, 110.935997, 117.008003, 117.410004, 117.811996, 116.335999, 114.861000, 115.391998, 115.922997, 112.366997, 108.810997, 109.082001, 109.353996, 108.578003, 107.802002, 106.295998, 104.790001, 106.238998, 107.689003, 106.046997, 104.404999, 104.224998, 104.045998, 102.023003, 100.000000, 98.167099, 96.334198, 96.061096, 95.788002, 92.236801, 88.685600, 89.345901, 90.006203, 89.802597, 89.599098, 88.648903, 87.698700, 85.493599, 83.288597, 83.493896, 83.699203, 81.862999, 80.026802, 80.120697, 80.214600, 81.246201, 82.277802, 80.280998, 78.284203, 74.002701, 69.721298, 70.665199 };
 
 
         public SampledSpectrum()
@@ -269,6 +270,19 @@ namespace PathTracer
                 c[i] = 1;
             }
             
+            return new SampledSpectrum(c).Clamp();
+
+        }
+
+        public SampledSpectrum CreateCIEstdD()
+        {
+            c = Vector<double>.Build.Dense(nSpectralSamples);
+            double step = (sampledLambdaEnd - sampledLambdaStart) / nSpectralSamples;
+            for (int i = 0; i < nSpectralSamples; i++)
+            {
+                c[i] = CIEstdD[i];
+            }
+
             return new SampledSpectrum(c).Clamp();
 
         }

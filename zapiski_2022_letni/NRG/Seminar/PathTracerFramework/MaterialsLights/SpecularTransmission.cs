@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace PathTracer
 {
@@ -50,16 +51,25 @@ namespace PathTracer
         /// <returns>f as fresnel corrected color, wi as perfect reflection and 1 as pdf</returns>
         public override (Spectrum, Vector3, double) Sample_f(Vector3 woL)
         {
+            Random coinflip = new Random();
             // figure out which eta transmits and which incides
             bool entering = Utils.CosTheta(woL) > 0;
-            double eta = 1.2;
-            Vector3 wiL = Samplers.CosineSampleHemisphere();
+            double eta = 1.6;
+            if (entering)
+            {
+                eta = 1 / eta;
+            }
+            Vector3 wiL = Samplers.UniformSampleSphere();
             //FresnelDielectric temp = fresnel.Evaluate(Utils.CosTheta(wiL));
             // compute ray direction for specular transmission
+            int ix = coinflip.Next(0, SampledSpectrum.nSpectralSamples);
+            double step = 0.02 / SampledSpectrum.nSpectralSamples;
+            Vector<double> newcol = Vector<double>.Build.Dense(SampledSpectrum.nSpectralSamples);
+            newcol[ix] = r.c[ix];
             Vector3 vec = Refract(woL, Vector3Extensions.Faceforward(new Vector3(0, 0, 1), woL), (float)eta, wiL);
             if (vec==Vector3.ZeroVector)
                 return (Spectrum.CreateSpectral(0), wiL, 0);
-            Spectrum ft = r * (Spectrum.createSpectralUni());
+            Spectrum ft = Spectrum.CreateSpectral(newcol) * (Spectrum.createSpectralUni());
             return (ft / Utils.AbsCosTheta(vec), vec, 1);
         }
 

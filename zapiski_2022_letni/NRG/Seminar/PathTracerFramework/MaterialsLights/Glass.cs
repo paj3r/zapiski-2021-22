@@ -50,34 +50,57 @@ namespace PathTracer
         public override (Spectrum, Vector3, double) Sample_f(Vector3 woL)
         {
             // perfect specular reflection
-            double eta = 1.62;
+            double eta = 3;
 
             //Vector3 wiL = new Vector3(-eta * woL.x,-eta * woL.y, Math.Sign(-woL.z)*(1- eta*eta*(1-woL.z*woL.z)));
             Vector3 wiL = Samplers.UniformSampleSphere();
             Spectrum fr = r * fresnel.Evaluate(Utils.CosTheta(wiL));
-            if (Utils.SameHemisphere(woL, wiL))
+            //Spectrum fr = r;
+            if (Utils.SameHemisphere(woL, wiL)) {
+                var tee = Utils.AbsCosTheta(wiL);
                 return (fr / Utils.AbsCosTheta(wiL), wiL, 1);
+            }
             else {
                 Random coinflip = new Random();
-                if (coinflip.Next(0, 2) == 0) {
+                if (coinflip.NextDouble() < Utils.AbsCosTheta(wiL)) {
                     Vector3 wiLt = new Vector3(-woL.x, -woL.y, woL.z);
                     Spectrum ft = fresnel.Evaluate(Utils.CosTheta(wiL));
-                    return (ft / Utils.AbsCosTheta(wiLt), wiLt, 0);
+                    var tee = Utils.AbsCosTheta(wiL);
+                    return (ft / Utils.AbsCosTheta(wiL), wiLt, tee);
                     //return (fr / Utils.AbsCosTheta(wiL), woL, 0);
                 }
                 else {
                     bool entering = Utils.CosTheta(woL) > 0;
+                    if (entering)
+                    {
+                        eta = 1 / eta;
+                    }
                     //FresnelDielectric temp = fresnel.Evaluate(Utils.CosTheta(wiL));
                     // compute ray direction for specular transmission
-                    int ix = coinflip.Next(0, SampledSpectrum.nSpectralSamples);
-                    double step = 0.02/SampledSpectrum.nSpectralSamples;
+                    double sum = 0;
+                    for (int i = 0; i < SampledSpectrum.nSpectralSamples; i++) {
+                        sum += r.c[i];
+                    }
+                    double ix = coinflip.NextDouble()*sum;
+                    double newsum = 0;
+                    int index = 0;
+                    for (int i = 0; i < SampledSpectrum.nSpectralSamples; i++)
+                    {
+                        if (newsum >= ix) { 
+                            index = i;
+                            break;
+                        }
+                        newsum += r.c[i];
+                    }
+                    double step = 1.5/SampledSpectrum.nSpectralSamples;
                     Vector<double> newcol = Vector<double>.Build.Dense(SampledSpectrum.nSpectralSamples);
-                    newcol[ix] = r.c[ix];
-                    Vector3 vec = Refract(woL, Vector3Extensions.Faceforward(new Vector3(0, 0, 1), woL), (float)(eta-step), wiL);
+                    newcol[index] = r.c[index];
+                    Vector3 vec = Refract(woL, Vector3Extensions.Faceforward(new Vector3(0, 0, 1), woL), (float)(eta-(step*index)), wiL);
                     if (vec == Vector3.ZeroVector)
                         return (Spectrum.ZeroSpectrum, wiL, 1);
-                    Spectrum ft = Spectrum.CreateSpectral(newcol) * (Spectrum.CreateSpectral(0).FromRGB(Color.White, Spectrum.SpectrumType.Reflectance));
-                    return (ft / Utils.AbsCosTheta(vec), vec, 1);
+                    Spectrum ft = r * (Spectrum.CreateSpectral(0).FromRGB(Color.White, Spectrum.SpectrumType.Reflectance));
+                    var tee = Utils.AbsCosTheta(wiL);
+                    return (ft / Utils.AbsCosTheta(wiL), vec, 1-tee);
                 }
             }
 
