@@ -134,7 +134,7 @@ namespace PathTracer
             //el = new Sphere(100, Transform.Translate(150, 100, 420));
             //el.BSDF.Add(new OrenNayar(Spectrum.createSpectralMag(),0));
             //el.BSDF.Add(new Glass(Spectrum.CreateSpectral(0).FromRGB(c, Spectrum.SpectrumType.Reflectance), 0, 0));
-            el.BSDF.Add(new Glass(Spectrum.CreateSpectral(0).FromRGB(c, Spectrum.SpectrumType.Reflectance), 0, 0));
+            el.BSDF.Add(new SpecularTransmission(Spectrum.CreateSpectral(0).FromRGB(c, Spectrum.SpectrumType.Reflectance), 0, 0));
             s.Elements.Add(el);
 
             //s.Elements.Add(new DiffuseAreaLight( new Sphere(100, Transform.Translate(400, 100, 230)), Spectrum.Create(1), 20));

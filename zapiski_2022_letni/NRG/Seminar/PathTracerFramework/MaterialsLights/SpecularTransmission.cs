@@ -69,7 +69,7 @@ namespace PathTracer
             Vector3 vec = Refract(woL, Vector3Extensions.Faceforward(new Vector3(0, 0, 1), woL), (float)eta, wiL);
             if (vec==Vector3.ZeroVector)
                 return (Spectrum.CreateSpectral(0), wiL, 0);
-            Spectrum ft = Spectrum.CreateSpectral(newcol) * (Spectrum.createSpectralUni());
+            Spectrum ft = Spectrum.CreateSpectral(newcol) * (Spectrum.CreateSpectral(0).FromRGB(Color.White, Spectrum.SpectrumType.Illuminant));
             return (ft / Utils.AbsCosTheta(vec), vec, 1);
         }
 
